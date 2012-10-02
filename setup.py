@@ -35,5 +35,8 @@ setup(name='pu_in_favorites',
       install_requires = requires,
       tests_require= requires,
       test_suite="pu-in-favorites",
-      entry_points = "",
+      entry_points = """\
+      [pu.in.app]
+      urls = pu_in_favorites:get_urls()
+      """
       )
