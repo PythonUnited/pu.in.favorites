@@ -20,6 +20,7 @@ class Favorite(models.Model):
 
     class Meta:
         app_label = 'pu_in_favorites'
+        ordering = ["order"]
 
     @property
     def title(self):
@@ -39,14 +40,19 @@ class Favorite(models.Model):
                 pass
         super(Favorite, self).save(**kwargs)
 
-    def move_up(self):
+    def move(self, dist=1):
 
-        _self_order = self.order
+        direction = (dist > 0 and 1 or -1)
+
         try:
-            predecessor = self.folder.favorite_set.get(order=self.order - 1)
-            self.order = predecessor.order
-            predecessor.order = _self_order
+            targets = list(self.folder.favorite_set.filter(
+                order__range=(min(self.order + direction, self.order + dist),
+                              max(self.order + direction, self.order + dist))))
+            self.order = self.order + dist
             self.save()
-            predecessor.save()
+
+            for target in targets:
+                target.order -= direction
+                target.save()
         except:
-            log.warn("Couldn't find predecessor. Already first in this folder?")
+            log.warn("Couldn't move")

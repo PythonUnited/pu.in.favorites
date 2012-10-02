@@ -1,6 +1,8 @@
 from django.test.testcases import TestCase
+from django.contrib.auth.models import User
 from pu_in_favorites.models.favorite import Favorite
 from pu_in_favorites.models.favoritesfolder import FavoritesFolder
+from pgprofile.models.userprofile import UserProfile
 
 
 class FavoriteTest(TestCase):
@@ -9,7 +11,14 @@ class FavoriteTest(TestCase):
 
         super(FavoriteTest, self).setUp()
 
-        self.folder = FavoritesFolder.objects.create(_title="My favorites")
+        User.objects.create(
+            username="bobdobalina"
+            )
+
+        profile = UserProfile.objects.get(name="bobdobalina")
+
+        self.folder = FavoritesFolder.objects.create(_title="My favorites",
+                                                     profile=profile)
 
         self.favorite0 = Favorite.objects.create(
             _title="Favorite 0",
@@ -31,33 +40,24 @@ class FavoriteTest(TestCase):
 
         self.assertEquals(self.favorite1.order, 1)
 
-        favs = list(self.folder.favorite_set.all().order_by("order"))
+        favs = list(self.folder.favorite_set.all())
 
-        self.assertEquals(favs[0].order, 0)
         self.assertEquals(favs[0].title, "Favorite 0")        
-        self.assertEquals(favs[1].order, 1)
         self.assertEquals(favs[1].title, "Favorite 1")                
-        self.assertEquals(favs[2].order, 2)
         self.assertEquals(favs[2].title, "Favorite 2")        
 
         # reorder!
-        self.favorite1.move_up()
-        favs = list(self.folder.favorite_set.all().order_by("order"))      
+        self.favorite1.move(dist=-1)
+        favs = list(self.folder.favorite_set.all())
 
-        self.assertEquals(favs[0].order, 0)
         self.assertEquals(favs[0].title, "Favorite 1")        
-        self.assertEquals(favs[1].order, 1)
         self.assertEquals(favs[1].title, "Favorite 0")                
-        self.assertEquals(favs[2].order, 2)
         self.assertEquals(favs[2].title, "Favorite 2")                
 
         # reorder again...
-        self.favorite1.move_up()
-        favs = list(self.folder.favorite_set.all().order_by("order"))
+        self.favorite1.move(dist=-1)
+        favs = list(self.folder.favorite_set.all())
 
-        self.assertEquals(favs[0].order, 0)
         self.assertEquals(favs[0].title, "Favorite 1")        
-        self.assertEquals(favs[1].order, 1)
         self.assertEquals(favs[1].title, "Favorite 0")                
-        self.assertEquals(favs[2].order, 2)
         self.assertEquals(favs[2].title, "Favorite 2")                
