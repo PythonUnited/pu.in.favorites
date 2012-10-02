@@ -1,4 +1,4 @@
-pu.in.favorites
+pu.intranet.favorites
 ===============
 
 PythonUnited Intranet Favorites module
