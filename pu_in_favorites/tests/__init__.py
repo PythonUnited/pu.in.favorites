@@ -1,2 +1,3 @@
 from favorite import FavoriteTest
 from favoritesfolder import FavoritesFolderTest
+from favorites_view import FavoritesViewTest

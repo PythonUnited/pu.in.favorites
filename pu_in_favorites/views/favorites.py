@@ -16,6 +16,7 @@ class FavoritesView(DetailView):
 
     model = UserProfile
     template_name = "favorites_admin.html"
+    allowed_actions = ("add_folder", )
 
     def get_template_names(self):
 
@@ -23,19 +24,10 @@ class FavoritesView(DetailView):
 
     def get_object(self, queryset=None):
 
-        self.obj = None
-
-        if not self.kwargs.get("slug", None):
-            self.kwargs["slug"] = self.request.user.get_profile().slug
+        """ Find user profile from logged in user """
 
         try:
-            self.obj = UserProfile.objects.get(name__iexact=self.kwargs['slug'])
-        except ObjectDoesNotExist:
-            try:
-                self.obj = UserProfile.objects.get(
-                    pk=self.kwargs['slug'].split("_")[-1])
-            except:
-                raise Http404
+            self.obj = self.request.user.get_profile()
         except:
             raise Http404
 
@@ -43,29 +35,40 @@ class FavoritesView(DetailView):
 
     def post(self, request, *args, **kwargs):
 
+        """ If the request is a POST, handle the request by finding
+        the appropriate action, and return the result as JSON"""
+
+        result = {"status": 0, "message": ""}
+
         if self.request.POST.has_key("action"):
             action = getattr(self, self.request.POST['action'])
 
-            if callable(action):
+            if callable(action) and action in self.allowed_actions:
 
                 self.get_object()
                 
                 return action()
+            else:
+                result['status'] = -2
+                result['message'] = "Action %s not allowed" % action
         else:
-            return HttpResponse(
-                json.dumps({"status": -2, "message": "no action provided"}),
-                mimetype='application/json')                 
+            result["message"] = "No action provided"
+            
+        return HttpResponse(
+            json.dumps(result),
+            mimetype='application/json')                 
 
     def add_folder(self):
 
-        result = {"status": -1, "message": ""}
+        result = {"status": 0, "message": ""}
 
         if self.request.POST.get("title", None):
             folder = self.obj.favoritesfolder_set.create(
                 _title=self.request.POST['title'])
             result["status"] = 0
             result["message"] = "folder %s created" % folder.title
+        else:
+            result["status"] = -1
+            result["message"] = "title is required"
             
-        return HttpResponse(
-            json.dumps(result),
-            mimetype='application/json')     
+        return result
