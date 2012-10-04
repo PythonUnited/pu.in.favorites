@@ -18,7 +18,7 @@ class FakeRequest(object):
    @property
    def method(self):
 
-       return self.post and "POST" or "GET"
+       return (self.post is not None) and "POST" or "GET"
 
 
 def initFormView(view, get=None, post=None):

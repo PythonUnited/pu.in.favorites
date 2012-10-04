@@ -1,6 +1,5 @@
 from django.test.testcases import TestCase
 from django.contrib.auth.models import User
-from pu_in_favorites.models.favorite import Favorite
 from pu_in_favorites.models.favoritesfolder import FavoritesFolder
 from pgprofile.models.userprofile import UserProfile
 

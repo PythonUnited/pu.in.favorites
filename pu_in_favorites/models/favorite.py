@@ -37,7 +37,7 @@ class Favorite(models.Model):
                     folder=self.folder).aggregate(models.Max('order'))
                 self.order = _max['order__max'] + 1
             except:
-                pass
+                self.order = 0
         super(Favorite, self).save(**kwargs)
 
     def move(self, dist=1):

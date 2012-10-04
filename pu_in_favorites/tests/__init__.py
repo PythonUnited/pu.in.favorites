@@ -1,3 +1,13 @@
 from favorite import FavoriteTest
 from favoritesfolder import FavoritesFolderTest
-from favorites_view import FavoritesViewTest
+#from favorites_view import FavoritesViewTest
+
+from favoritesfolder_create_view import FavoritesFolderCreateViewTest
+from favoritesfolder_update_view import FavoritesFolderUpdateViewTest
+from favoritesfolder_view import FavoritesFolderDetailViewTest
+from favoritesfolder_delete_view import FavoritesFolderDeleteViewTest
+
+from favorite_create_view import FavoriteCreateViewTest
+from favorite_update_view import FavoriteUpdateViewTest
+from favorite_view import FavoriteDetailViewTest
+from favorite_delete_view import FavoriteDeleteViewTest

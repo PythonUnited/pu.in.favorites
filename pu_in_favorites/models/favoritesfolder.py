@@ -8,7 +8,7 @@ log = logging.getLogger("pu_in_favorites")
 
 class FavoritesFolder(models.Model):
 
-    _title = models.CharField(max_length=250, blank=True, null=True)
+    _title = models.CharField(max_length=250)
     profile = models.ForeignKey(UserProfile)
     order = models.IntegerField(default=0)
 
@@ -31,7 +31,7 @@ class FavoritesFolder(models.Model):
                     profile=self.profile).aggregate(models.Max('order'))
                 self.order = _max['order__max'] + 1
             except:
-                pass
+                self.order = 0
         super(FavoritesFolder, self).save(**kwargs)
 
     def move(self, dist=1):

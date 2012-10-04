@@ -16,7 +16,7 @@ class FavoritesView(DetailView):
 
     model = UserProfile
     template_name = "favorites_admin.html"
-    allowed_actions = ("add_folder", )
+    allowed_actions = ("add_folder", "rm_folder")
 
     def get_template_names(self):
 
@@ -70,5 +70,48 @@ class FavoritesView(DetailView):
         else:
             result["status"] = -1
             result["message"] = "title is required"
+            
+        return result
+
+    def rm_folder(self):
+
+        result = {"status": 0, "message": ""}
+
+        if self.request.POST.get("folder_id", None):
+            try:
+                folder = self.obj.favoritesfolder_set.get(
+                    pk=self.request.POST['folder_id'])
+                folder.delete()
+                result["status"] = 0
+                result["message"] = "folder %s removed" % folder.title
+            except:                
+                result["status"] = -1
+                result["message"] = "folder not removed"
+        else:
+            result["status"] = -1
+            result["message"] = "folder_id is required"
+            
+        return result
+
+    def rename_folder(self):
+
+        result = {"status": 0, "message": ""}
+
+        if self.request.POST.get("folder_id", None) and \
+               self.request.POST.get("title", None):
+            try:
+                folder = self.obj.favoritesfolder_set.get(
+                    pk=self.request.POST['folder_id'])
+                old_title = folder.title
+                folder._title = self.request.POST['title']
+                result["status"] = 0
+                result["message"] = "folder %s renamed to %s" % \
+                                    (old_title, folder.title)
+            except:                
+                result["status"] = -1
+                result["message"] = "folder not renamed"
+        else:
+            result["status"] = -1
+            result["message"] = "folder_id and title are required"
             
         return result

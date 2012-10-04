@@ -37,4 +37,31 @@ class FavoritesViewTest(TestCase):
         result = self.view.add_folder()
 
         self.assertEquals(FavoritesFolder.objects.all().count(), 1)
-        self.assertEquals(result['status'], -1)        
+        self.assertEquals(result['status'], -1)
+
+    def test_rm_folder(self):
+
+        user = User.objects.create(
+            username="bobdobalina"
+            )
+
+        folder = FavoritesFolder(title="pipo", profile=user.get_profile())
+        folder.save()
+        
+        self.view.request = FakeRequest(post={"folder_id": folder.pk + 10},
+                                        user=user)
+        self.view.get_object()
+
+        self.assertEquals(FavoritesFolder.objects.all().count(), 1)
+
+        result = self.view.rm_folder()
+
+        self.assertEquals(FavoritesFolder.objects.all().count(), 1)
+        self.assertEquals(result['status'], -1)
+
+        self.view.request = FakeRequest(post={"folder_id": folder.pk})
+
+        result = self.view.rm_folder()
+
+        self.assertEquals(FavoritesFolder.objects.all().count(), 0)
+        self.assertEquals(result['status'], 0)        
