@@ -1,5 +1,7 @@
 {% extends "layout-8x4.html" %}
 
+{% load pu_in_favorites_tags %}
+
 {% block extra_js %}
 <!-- pu_in_favorites JS -->
 <script src="{{STATIC_URL}}js/pu_in_favorites.js"></script>
@@ -17,22 +19,27 @@
 <div id="pu_in_favorites_add_folder_form" style="display: none">
   <form action="javascript: pu_in.favorites.add_folder()">
     <label>Title</label>
-    <input name="title" type="text" /> 
-    {% csrf_token %}
+    <input name="_title" type="text" /> 
+    <input name="profile" type="hidden" value="{{ request.user.get_profile.id }}" />
+    <button class="btn">Cancel</button>
+    <button type="submit" class="btn btn-primary">Save</button>
   </form>
+
 </div>
 
-<ul>
-  {% for folder in object.favoritesfolder_set.all %}
-  <li class="relationrow" style="clear: both;">
-    <span class="label">{{ folder.title }}</span>
+<div id="pu_in_favorites_edit_folder_form" style="display: none">
 
-    <ul>
-      {% for favorite in folder.favorite_set.all %}
-      <li>{{ favorite.title }}</li>
-      {% endfor %}
-    </ul>
-  </li>
+  <form action="javascript: pu_in.favorites.edit_folder()">
+    <label>Title</label>
+    <input name="_title" type="text" /> 
+    <input name="id" type="hidden" /> 
+  </form>
+
+</div>
+
+<ul id="favorites">
+  {% for folder in object.favoritesfolder_set.all %}
+  {% favoritesfolder folder %}
   {% endfor %}
 </ul>
 

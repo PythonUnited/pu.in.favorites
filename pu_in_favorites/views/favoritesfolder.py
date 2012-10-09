@@ -10,10 +10,9 @@ class FavoritesFolderCreateView(JSONCreateView):
     model = FavoritesFolder
     form_class = FavoritesFolderForm
 
-    def get_success_url(self):
+    def get_html_template_name(self):
 
-        return reverse("pu_in_favorites_view_favoritesfolder_json",
-                       kwargs={'pk': self.object.id})
+        return "snippets/favoritesfolder.html"
 
 
 class FavoritesFolderUpdateView(JSONUpdateView):
@@ -21,10 +20,9 @@ class FavoritesFolderUpdateView(JSONUpdateView):
     model = FavoritesFolder
     form_class = FavoritesFolderForm
 
-    def get_success_url(self):
+    def get_html_template_name(self):
 
-        return reverse("pu_in_favorites_view_favoritesfolder_json",
-                       kwargs={'pk': self.object.id})    
+        return "snippets/favoritesfolder.html"
 
 
 class FavoritesFolderDetailView(JSONDetailView):

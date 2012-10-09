@@ -1,0 +1,16 @@
+<li class="content_item" style="clear: both;"
+    id="favoritesobject_{{ object.id }}"
+  >
+  {{ object.title }}
+  <a class="btn btn-mini json-rm"
+     href="{% url pu_in_favorites_delete_favoritesfolder_json object.id %}"
+     ><i class="icon-trash"></i></a>
+  <a class="btn btn-mini json-edit" 
+     href="javascript: pu_in.favorites.show_edit_folder_form('{{ object.title }}', '{{ object.id }}')"
+     ><i class="icon-edit"></i></a>
+  <ul>
+    {% for favorite in object.favorite_set.all %}
+    <li>{{ favorite.title }}</li>
+    {% endfor %}
+  </ul>
+</li>
