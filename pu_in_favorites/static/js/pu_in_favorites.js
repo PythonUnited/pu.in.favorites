@@ -106,7 +106,8 @@ pu_in.favorites.delete = function(event) {
            }
          });
 
-  return false;
+  event.stopPropagation();
+  event.preventDefault();
 };
 
 
@@ -142,13 +143,30 @@ pu_in.favorites.rebind_events = function() {
 
 pu_in.favorites.handle_favorite_action = function(action) {
 
+  var tgt = action.attr("target");
+
   $.post(action.attr("href"),
          action.attr("pu:action-data"),
          function(data) {
            if (data['status'] != 0) {
              pg.showMessage(pu_in.core.formatErrors(data['errors']), "error");
            } else {
-             action.replace(data['html']);
+             if (tgt) {
+
+               var parent = $(tgt).parent();
+
+               $(tgt).replaceWith(data['html']);
+               parent.find(".favorite_action").click(function() {
+                   return pu_in.favorites.handle_favorite_action($(this));
+                 });
+             } else {
+               var parent = action.parent();
+
+               action.replaceWith(data['html']);
+               parent.find(".favorite_action").click(function() {
+                   return pu_in.favorites.handle_favorite_action($(this));
+                 });
+             }
            }
          });
   
@@ -174,7 +192,7 @@ $(document).ready(function() {
       });
     
     $(".content_item").each(function() {
-        pu_in.favorites.bind_events($(this));
+        pu_in.favorites.bind_events($(this), true);
       });
      
   });

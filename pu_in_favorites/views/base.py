@@ -88,7 +88,7 @@ class JSONCreateView(JSONResponseMixin, BaseCreateView):
 
         if self.get_html_template_name():
             data['html'] = render_to_string(
-                self.get_html_template_name(), {'object': self.object})
+                self.get_html_template_name(), context)
 
         return json.dumps(data)
 
@@ -105,7 +105,7 @@ class JSONDetailView(JSONResponseMixin, BaseDetailView):
 
         if self.get_html_template_name():
             data['html'] = render_to_string(
-                self.get_html_template_name(), {'object': self.object})
+                self.get_html_template_name(), context)
 
         return json.dumps(data)
 
@@ -114,14 +114,19 @@ class JSONDeleteView(JSONResponseMixin, BaseDeleteView):
 
     def convert_context_to_json(self, context):
 
-        return "{}"
+        data = {'status': 0, 'errors': {}}
 
-    def delete(self, request, *args, **kwargs):
+        if self.get_html_template_name():
+            data['html'] = render_to_string(
+                self.get_html_template_name(), context)
+
+        return json.dumps(data)
+
+    def post(self, *args, **kwargs):
 
         self.object = self.get_object()
         self.object.delete()
 
-        return http.HttpResponse(
-            json.dumps({"status": 0,
-                        "message": "deleted object %s" % self.object.id}),
-            content_type='application/json')
+        context = self.get_context_data(**kwargs)
+
+        return self.render_to_response(context)

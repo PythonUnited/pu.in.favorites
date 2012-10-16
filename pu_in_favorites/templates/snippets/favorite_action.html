@@ -1,12 +1,13 @@
 {% if is_favorite %}
-<a class="favorite_action favorite"
+<a class="favorite_action favorite btn"
    href="{% url pu_in_favorites_delete_favorite_json favorite_id %}"
    title="Verwijder uit favorieten"><i class="icon-fav"></i>Favoriet</a>
 {% else %}
-<div class="btn-group"> 
-  <a class="btn favorite_action dropdown-toggle"
+<div class="btn-group" id="favorite_action"> 
+  <a class="btn favorite_action"
      href="{% url pu_in_favorites_add_favorite_json %}"
-     pu:action-data="uri={{ urn }}&_title={{ title }}"
+     target="#favorite_action"
+     pu:action-data="uri={{ urn }}&_title={{ title }}&folder={{ default_folder.id }}"
      title="Toevoegen aan favorieten"><i class="icon-fav"></i>Favoriet maken
   </a>
   {% if folders.count != 1 %}
@@ -20,11 +21,12 @@
   <ul class="dropdown-menu">
     {% for folder in folders %}
     <li>
-      <a class="btn favorite_action"
+      <a class="favorite_action"
          href="{% url pu_in_favorites_add_favorite_json %}"
+         target="#favorite_action"
          pu:action-data="uri={{ urn }}&_title={{ title }}&folder={{ folder.id }}"
          >
-        {{ folder.title }}
+        in {{ folder.title }}
       </a>
     </li>
     {% endfor %}

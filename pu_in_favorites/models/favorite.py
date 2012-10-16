@@ -1,5 +1,6 @@
 import logging
 from django.db import models
+from django.core.exceptions import ValidationError
 from favoritesfolder import FavoritesFolder
 from pu_in_favorites.settings import URN_SCHEMA
 
@@ -26,6 +27,11 @@ class Favorite(models.Model):
     def title(self):
 
         return self._title
+
+    def clean(self):
+
+        if Favorite.objects.filter(uri=self.uri, folder=self.folder).exists():
+            raise ValidationError("Favorite already exists!")
 
     def save(self, **kwargs):
 
