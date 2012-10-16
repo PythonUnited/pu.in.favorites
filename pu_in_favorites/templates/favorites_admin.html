@@ -27,16 +27,6 @@
 
 </div>
 
-<div id="pu_in_favorites_edit_folder_form" style="display: none">
-
-  <form action="javascript: pu_in.favorites.edit_folder()">
-    <label>Title</label>
-    <input name="_title" type="text" /> 
-    <input name="id" type="hidden" /> 
-  </form>
-
-</div>
-
 <ul id="favorites">
   {% for folder in object.favoritesfolder_set.all %}
   {% favoritesfolder folder %}

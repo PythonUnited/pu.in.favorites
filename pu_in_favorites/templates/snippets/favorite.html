@@ -1,0 +1,37 @@
+<li class="content_item"
+    id="favorite_{{ object.id }}"
+  >
+  <div class="pu_in_favorites_edit_form"
+       id="pu_in_favorites_edit_{{ object.id }}"
+       >
+    
+    <form action="{% url pu_in_favorites_edit_favorite_json object.id %}">
+      <input name="_title" type="text" value="{{ object.title }}" /> 
+      <input name="id" type="hidden" value="{{ object.id}}"/> 
+      <div class="btn-group">
+        <button type="submit" class="btn btn-mini"
+                name="submit" value="submit"
+                >
+          <i class="icon-save"></i>Save
+        </button>
+        <button class="btn btn-mini cancel">
+          <i class="icon-remove"></i>Cancel
+        </button>        
+      </div>
+    </form>
+    
+  </div>
+  <span class="favorite_title">{{ object.title }}</span>
+  <div class="btn-group">
+    <a class="btn btn-mini json-rm"
+       href="{% url pu_in_favorites_delete_favorite_json object.id %}"
+       >
+      <i class="icon-trash"></i>
+    </a>
+    <a class="btn btn-mini json-edit" 
+       href="javascript: pu_in.favorites.show_edit_form('{{ object.title }}', '{{ object.id }}')"
+       >
+      <i class="icon-edit"></i>
+    </a>
+  </div>
+</li>

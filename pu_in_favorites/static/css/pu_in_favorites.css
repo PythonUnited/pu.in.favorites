@@ -1,0 +1,25 @@
+.pu_in_favorites_edit_folder_form, .pu_in_favorites_edit_form {
+    display: none;
+}
+
+.favoritesfolder_title, .favorite_title {
+    float: left;
+}
+
+#favorites, #favorites ul {
+    list-style: none;
+}
+
+#favorites .btn-group {
+    float: right;
+}
+
+#favorites li {
+    clear: both;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#favorites li:hover {
+    background-color: #c0c0c0;
+}

@@ -22,18 +22,24 @@ pu_in.core.formatErrors = function(dict) {
 pu_in['favorites'] = {};
 
 
+/**
+ * Show the add folder form.
+ */
 pu_in.favorites.show_add_folder = function() {
+
   $("#pu_in_favorites_add_folder_form").show();
 };
 
 
+/**
+ * Show edit folder form.
+ */
 pu_in.favorites.show_edit_folder_form = function(folder_title, folder_id) {
 
-  var form = $("#pu_in_favorites_edit_folder_form");
-  form.find(":input[name='_title']").val(folder_title);
-  form.find(":input[name='id']").val(folder_id);
+  var form = $("#pu_in_favorites_edit_folder_" + folder_id);
 
-  $("#pu_in_favorites_edit_folder_form").show();
+  form.show();
+  form.next().hide();
 };
 
 
@@ -151,6 +157,17 @@ pu_in.favorites.handle_favorite_action = function(action) {
 
 
 $(document).ready(function() {
+
+    $(".pu_in_favorites_edit_folder_form .cancel").click(function() {
+        var form = $(this).parents(".pu_in_favorites_edit_folder_form");
+        form.hide();
+        form.next().show();        
+      });
+
+    $(".pu_in_favorites_edit_folder_form form").submit(function() {
+        
+        return false;
+      });
 
     $(".favorite_action").click(function() {
         return pu_in.favorites.handle_favorite_action($(this));

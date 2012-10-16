@@ -13,6 +13,12 @@ def favoritesfolder(folder):
     return {'object': folder}
 
 
+@register.inclusion_tag('snippets/favorite.html')
+def favorite(favorite):
+
+    return {'object': favorite}
+
+
 @register.inclusion_tag('snippets/favorite_action.html', takes_context=True)
 def favorite_action(context, object, title=None):
 
