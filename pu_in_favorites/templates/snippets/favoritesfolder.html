@@ -7,8 +7,10 @@
        id="pu_in_favorites_edit_folder_{{ object.id }}"
        >
     
-    <form action="{% url pu_in_favorites_edit_favoritesfolder_json object.id %}">
+    <form target="#favoritesfolder_{{ object.id }}" 
+       action="{% url pu_in_favorites_edit_favoritesfolder_json object.id %}">
       <input name="_title" type="text" value="{{ object.title }}" /> 
+      <input name="profile" type="hidden" value="{{ object.profile.id }}" /> 
       <input name="id" type="hidden" value="{{ object.id}}"/> 
       <div class="btn-group">
         <button type="submit" class="btn btn-mini"

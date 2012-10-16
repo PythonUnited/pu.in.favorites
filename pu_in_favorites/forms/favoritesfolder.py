@@ -6,11 +6,12 @@ class FavoritesFolderForm(forms.ModelForm):
 
     """ Form for FavoritesFolder model """
 
-    def __init__(self, *args, **kwargs):
+    #def __init__(self, *args, **kwargs):
 
-        super(FavoritesFolderForm, self).__init__(*args, **kwargs)
+    #    super(FavoritesFolderForm, self).__init__(*args, **kwargs)
 
-        self.fields['order'].required = False
+    #    self.fields['order'].required = False
 
     class Meta:
         model = FavoritesFolder
+        fields = ("_title", "profile",)

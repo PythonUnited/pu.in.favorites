@@ -8,7 +8,7 @@ from django.views.generic.edit import BaseCreateView, BaseUpdateView, \
 
 class JSONResponseMixin(object):
 
-    def get_html_template(self):
+    def get_html_template_name(self):
 
         """ Override this so as to return an actual html
         template. This will be added to the JSON data under the key of
@@ -41,10 +41,11 @@ class JSONResponseMixin(object):
 class JSONUpdateView(JSONResponseMixin, BaseUpdateView):
 
     def form_valid(self, form):
+
         self.object = form.save()
         return self.render_to_response(self.get_context_data(form=form))
 
-    def get_form_kwargs(self):
+    def RM__get_form_kwargs(self):
 
         """
         Returns the keyword arguments for instanciating the form.
@@ -68,13 +69,23 @@ class JSONUpdateView(JSONResponseMixin, BaseUpdateView):
 
     def convert_context_to_json(self, context):
 
-        return json.dumps({'errors': context['form'].errors,
-                           'status': context['form'].is_valid() and 0 or -1})
+        data = {'status': 0, 'errors': {}}
+
+        if not context['form'].is_valid():
+            data['status'] = -1
+            data['errors'] = context['form'].errors
+
+        if self.get_html_template_name():
+            data['html'] = render_to_string(
+                self.get_html_template_name(), context)
+            
+        return json.dumps(data)
 
 
 class JSONCreateView(JSONResponseMixin, BaseCreateView): 
 
     def form_valid(self, form):
+
         self.object = form.save()
         return self.render_to_response(self.get_context_data(form=form))
 

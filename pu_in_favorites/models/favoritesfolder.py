@@ -11,6 +11,7 @@ class FavoritesFolder(models.Model):
     _title = models.CharField(max_length=250)
     profile = models.ForeignKey(UserProfile)
     order = models.IntegerField(default=0)
+    can_delete = models.BooleanField(default=True)
 
     class Meta:
         app_label = 'pu_in_favorites'
@@ -33,6 +34,13 @@ class FavoritesFolder(models.Model):
             except:
                 self.order = 0
         super(FavoritesFolder, self).save(**kwargs)
+
+    def delete(self, *args, **kwargs):
+
+        """ Delete me if you can..."""        
+
+        if self.can_delete:
+            super(FavoritesFolder, self).delete(*args, **kwargs)
 
     def move(self, dist=1):
 
