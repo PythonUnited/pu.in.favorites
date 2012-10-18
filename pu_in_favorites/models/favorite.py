@@ -30,8 +30,10 @@ class Favorite(models.Model):
 
     def clean(self):
 
-        if Favorite.objects.filter(uri=self.uri, folder=self.folder).exists():
-            raise ValidationError("Favorite already exists!")
+        if not self.pk:
+            if Favorite.objects.filter(uri=self.uri, 
+                                       folder=self.folder).exists():
+                raise ValidationError("Favorite already exists!")
 
     def save(self, **kwargs):
 

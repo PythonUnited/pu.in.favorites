@@ -45,6 +45,23 @@ pu_in.favorites.show_edit_folder_form = function(folder_title, folder_id) {
 
 
 /**
+ * Show edit favorite form.
+ */
+pu_in.favorites.show_favorite_edit_form = function(event) {
+  
+  var tgt = $(event.target);
+  var row = tgt.parents(".content_item").eq(0);
+  var form = row.find(".pu_in_favorites_edit_form").eq(0);
+
+  form.show();
+  form.next().hide();
+
+  event.stopPropagation();
+  event.preventDefault();
+};
+
+
+/**
  * Add folder on back-end. Insert resulting html into list.
  */
 pu_in.favorites.add_folder = function() {
@@ -130,6 +147,16 @@ pu_in.favorites.bind_events = function(elt, rebind) {
       }
       
       $(this).click(pu_in.favorites.delete);
+
+    });
+
+  elt.find(".json-edit").each(function() {
+      
+      if (rebind) {
+        $(this).unbind("click");
+      }
+      
+      $(this).click(pu_in.favorites.show_favorite_edit_form);
 
     });
 

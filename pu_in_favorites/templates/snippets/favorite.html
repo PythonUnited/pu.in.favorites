@@ -5,9 +5,12 @@
        id="pu_in_favorites_edit_{{ object.id }}"
        >
     
-    <form action="{% url pu_in_favorites_edit_favorite_json object.id %}">
+    <form target="#favorite_{{ object.id }}"
+       action="{% url pu_in_favorites_edit_favorite_json object.id %}">
       <input name="_title" type="text" value="{{ object.title }}" /> 
       <input name="id" type="hidden" value="{{ object.id}}"/> 
+      <input name="folder" type="hidden" value="{{ object.folder.id}}"/> 
+      <input name="uri" type="hidden" value="{{ object.uri }}"/> 
       <div class="btn-group">
         <button type="submit" class="btn btn-mini"
                 name="submit" value="submit"
@@ -29,7 +32,7 @@
       <i class="icon-trash"></i>
     </a>
     <a class="btn btn-mini json-edit" 
-       href="javascript: pu_in.favorites.show_edit_form('{{ object.title }}', '{{ object.id }}')"
+       href="#"
        >
       <i class="icon-edit"></i>
     </a>

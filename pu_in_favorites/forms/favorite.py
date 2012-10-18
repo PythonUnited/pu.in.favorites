@@ -6,11 +6,6 @@ class FavoriteForm(forms.ModelForm):
 
     """ Form for Favorite model """
 
-    def __init__(self, *args, **kwargs):
-
-        super(FavoriteForm, self).__init__(*args, **kwargs)
-
-        self.fields['order'].required = False
-
     class Meta:
         model = Favorite
+        fields = ("_title", "folder", "uri",)

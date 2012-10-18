@@ -45,13 +45,13 @@ class JSONUpdateView(JSONResponseMixin, BaseUpdateView):
         self.object = form.save()
         return self.render_to_response(self.get_context_data(form=form))
 
-    def RM__get_form_kwargs(self):
+    def RM__get_initial(self):
 
         """
-        Returns the keyword arguments for instanciating the form.
+        Returns the keyword arguments for instantiating the form.
         """
 
-        kwargs = super(JSONUpdateView, self).get_form_kwargs()
+        #kwargs = super(JSONUpdateView, self).get_form_kwargs()
 
         data = {}
 
@@ -61,11 +61,13 @@ class JSONUpdateView(JSONResponseMixin, BaseUpdateView):
             data[field.name] = \
                              field.value_from_object(self.object)
 
-        data.update(kwargs['data'])
+        #data.update(kwargs['data'])
 
-        kwargs['data'] = data
+        #kwargs['data'] = data
 
-        return kwargs
+        #return kwargs
+
+        return data
 
     def convert_context_to_json(self, context):
 
