@@ -11,3 +11,5 @@ from favorite_create_view import FavoriteCreateViewTest
 from favorite_update_view import FavoriteUpdateViewTest
 from favorite_view import FavoriteDetailViewTest
 from favorite_delete_view import FavoriteDeleteViewTest
+
+from util import UtilTest

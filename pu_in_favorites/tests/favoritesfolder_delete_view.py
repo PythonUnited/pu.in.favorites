@@ -1,7 +1,7 @@
 import json
 from django.test.testcases import TestCase
 from django.contrib.auth.models import User
-from pu_in_favorites.views.favoritesFolder import FavoritesFolderDeleteView
+from pu_in_favorites.views.favoritesfolder import FavoritesFolderDeleteView
 from pu_in_favorites.models.favoritesfolder import FavoritesFolder
 from base import FakeRequest
 

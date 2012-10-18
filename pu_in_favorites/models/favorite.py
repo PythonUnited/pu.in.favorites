@@ -2,7 +2,7 @@ import logging
 from django.db import models
 from django.core.exceptions import ValidationError
 from favoritesfolder import FavoritesFolder
-from pu_in_favorites.settings import URN_SCHEMA
+from pu_in_favorites.util import urn_to_object
 
 
 log = logging.getLogger("pu_in_favorites")
@@ -28,12 +28,26 @@ class Favorite(models.Model):
 
         return self._title
 
+    @property
+    def url(self):
+
+        """ If the URI is n URN, resolve to actual object url,
+        otherwise leave it """
+
+        if self.uri.startswith("urn:"):
+            return urn_to_object(self.uri).get_absolute_url()
+        else:
+            return self.uri    
+
     def clean(self):
 
         if not self.pk:
-            if Favorite.objects.filter(uri=self.uri, 
+            try:
+                if Favorite.objects.filter(uri=self.uri, 
                                        folder=self.folder).exists():
-                raise ValidationError("Favorite already exists!")
+                    raise ValidationError("Favorite already exists!")
+            except:
+                pass
 
     def save(self, **kwargs):
 
