@@ -33,28 +33,13 @@ pu_in.favorites.show_add_folder = function() {
 
 
 /**
- * Show edit folder form.
+ * Show edit form.
  */
-pu_in.favorites.show_edit_folder_form = function(folder_title, folder_id) {
+pu_in.favorites.show_edit_form = function(event) {
 
-  var form = $("#pu_in_favorites_edit_folder_" + folder_id);
-
-  form.show();
-  form.next().hide();
-};
-
-
-/**
- * Show edit favorite form.
- */
-pu_in.favorites.show_favorite_edit_form = function(event) {
-  
   var tgt = $(event.target);
-  var row = tgt.parents(".content_item").eq(0);
-  var form = row.find(".pu_in_favorites_edit_form").eq(0);
 
-  form.show();
-  form.next().hide();
+  tgt.parents("li").eq(0).addClass("edit");
 
   event.stopPropagation();
   event.preventDefault();
@@ -76,7 +61,7 @@ pu_in.favorites.add_folder = function() {
              pg.showMessage(data['errors'], "error");
            } else {             
              $("#pu_in_favorites_add_folder_form").hide();
-             $("#favorites").append(data['html']);
+             $("#favorites_admin").append(data['html']);
              pu_in.favorites.rebind_events();
            }
            
@@ -92,17 +77,30 @@ pu_in.favorites.edit_folder = function() {
   var form = $("#pu_in_favorites_edit_folder_form form");
   var folder_id = form.find(":input[name='id']").val();
 
-  $.post("/favorites/edit/favoritesfolder/" + folder_id,
-         form.serialize(),
-         function(data) {
+  pu_in.favorites.edit_favorite(folder_id, form.serialize());
+};
 
-           if (data['status'] != 0) {
-             pg.showMessage(data['errors'], "error");
+
+/**
+ * Update favorite.
+ */
+pu_in.favorites.edit_favorite = function(id, data) {
+
+  $.post("/favorites/edit/favoritesfolder/" + id,
+         data,
+         function(response) {
+
+           if (response['status'] != 0) {
+             pg.showMessage(response['errors'], "error");
            } else {
-             $("#pu_in_favorites_edit_folder_form").hide();             
-             $("#favoritesfolder_" + folder_id).replace(data['html']);
+             $("#favoritesfolder_" + id).replace(response['html']);
            }
-         });
+         });  
+};
+
+  
+pu_in.favorites.edit_favoritesfolder = function(data) {
+
 };
 
 
@@ -124,7 +122,7 @@ pu_in.favorites.delete = function(event) {
            if (data['status'] != 0) {
              pg.showMessage(data['errors'], "error");
            } else {
-             tgt.parents(".content_item").eq(0).remove(data['html']);
+             tgt.parents("li").eq(0).remove();
            }
          });
 
@@ -147,7 +145,6 @@ pu_in.favorites.bind_events = function(elt, rebind) {
       }
       
       $(this).click(pu_in.favorites.delete);
-
     });
 
   elt.find(".json-edit").each(function() {
@@ -156,8 +153,7 @@ pu_in.favorites.bind_events = function(elt, rebind) {
         $(this).unbind("click");
       }
       
-      $(this).click(pu_in.favorites.show_favorite_edit_form);
-
+      $(this).click(pu_in.favorites.show_edit_form);
     });
 
   elt.find("form").each(function() {
@@ -192,7 +188,7 @@ pu_in.favorites.bind_events = function(elt, rebind) {
  */
 pu_in.favorites.rebind_events = function() {
   
-  $(".content_item").each(function() {
+  $(".favorite,.favoritesfolder").each(function() {
       pu_in.favorites.bind_events($(this), true);
     });
 };
@@ -231,6 +227,36 @@ pu_in.favorites.handle_favorite_action = function(action) {
 };
 
 
+/**
+ * Sorting update handle.
+ * @param event Event that triggered this function
+ * @param ui Object that has been moved
+ */
+pu_in.favorites.sort_favoritesfolder_update = function(event, ui) {
+
+  var data = {};
+
+  if (ui.sender) {
+    console.log("moved to a different container");
+    data['folder'] = ui.sender.attr("id");
+  }
+
+  data['dist'] = ui.position - ui.originalPosition;
+
+  pu_in.favorites.edit_favoritesfolder(ui.attr('id'), data);
+};
+
+
+/**
+ * Sorting update handle.
+ * @param event Event that triggered this function
+ * @param ui Object that has been moved
+ */
+pu_in.favorites.sort_favorite_update = function(event, ui) {
+  console.log("Stop sort favorite");
+};
+
+
 $(document).ready(function() {
 
     $(".pu_in_favorites_edit_folder_form .cancel").click(function() {
@@ -243,8 +269,31 @@ $(document).ready(function() {
         return pu_in.favorites.handle_favorite_action($(this));
       });
     
-    $(".content_item").each(function() {
+    $("#favorites_admin li").each(function() {
         pu_in.favorites.bind_events($(this), true);
       });
-     
+ 
+    //Making the favorite folders sort- and draggable
+    $('#favorites_admin').sortable({
+        revert: false,
+        delay: 150,
+        placeholder: "placeholder",
+        forcePlaceholderSize: true,
+        stop: pu_in.favorites.sort_favoritesfolder_stop
+      });
+
+    $('#xfavorites_admin').draggable({
+        revert: "invalid",
+          snap: true,
+          });
+    
+    // Making the favorite items sort- and draggable
+    $('.favorites').sortable({
+        connectWith: '.favorites',
+        delay: 150,
+        placeholder: "placeholder",
+        forcePlaceholderSize: true,
+        stop: pu_in.favorites.sort_favorite_stop
+        });
+
   });

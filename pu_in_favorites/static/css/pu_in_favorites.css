@@ -1,25 +1,81 @@
-.pu_in_favorites_edit_folder_form, .pu_in_favorites_edit_form {
-    display: none;
+/**
+ * PU intranet favorites CSS.
+ */
+
+ol {
+    min-height: 20px;
 }
 
-.favoritesfolder_title, .favorite_title {
+li {
+    min-height: 30px;
+}
+
+li form {
+    display: none;
     float: left;
 }
 
-#favorites, #favorites ul {
+li.favorite.edit form.favorite_edit {
+    display: block;
+}
+
+li.favoritesfolder.edit form.favoritesfolder_edit {
+    display: block;
+}
+
+li.edit span {
+    display: none !important;
+}
+
+#favorites {
+    padding: 10px;
+}
+
+#favorites, #favorites ul, #favorites_admin, #favorites_admin ol {
     list-style: none;
 }
 
-#favorites .btn-group {
-    float: right;
+#favorites_admin li {
+    width: 100%;
 }
 
-#favorites li {
+li .btn-group.favorite-actions, li .btn-group.favoritesfolder-actions {
+    float: right;
+    display: none;
+}
+
+li.favorite:hover .btn-group.favorite-actions {
+    display: block;
+}
+
+li.edit.favorite:hover .btn-group.favorite-actions {
+    display: none;
+}
+
+li.favoritesfolder:hover .btn-group.favoritesfolder-actions {
+    display: block;
+}
+
+li.edit.favoritesfolder:hover .btn-group.favoritesfolder-actions {
+    display: none;
+}
+
+#favorites li, #favorites_admin li {
     clear: both;
     margin-top: 10px;
     margin-bottom: 10px;
 }
 
-#favorites li:hover {
-    background-color: #c0c0c0;
+.ui-sortable li {
+    cursor: move;
+}
+
+.placeholder {
+  margin-bottom: 20px;
+  border: 1px dashed #dedede;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px; 
 }

@@ -29,7 +29,7 @@ class FavoriteDeleteViewTest(TestCase):
 
         self.assertEquals(Favorite.objects.all().count(), 1)
         
-        request = FakeRequest(post={})
+        request = FakeRequest(post={}, user=user)
 
         self.view.request = request
 

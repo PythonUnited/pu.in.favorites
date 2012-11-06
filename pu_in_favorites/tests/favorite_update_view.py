@@ -50,3 +50,21 @@ class FavoriteUpdateViewTest(TestCase):
         self.assertEquals(Favorite.objects.all().count(), 1)
         self.assertEquals(Favorite.objects.get(pk=folder.pk).title,
                           "Pipo")
+
+        # test order
+        #
+        favorite2 = Favorite.objects.create(_title="Favorite1",
+                                            folder=folder,
+                                            uri="http://www.pythonunited.com/"
+                                            )
+
+        self.assertEquals(Favorite.objects.all()[0].title, "Pipo")
+
+        request = FakeRequest(
+            post={"_title": "Pipo", "move": 1},
+            user=user)
+
+        self.view.request = request
+        result = self.view(request, pk=favorite.pk)
+
+        self.assertEquals(Favorite.objects.all()[1].title, "Pipo")

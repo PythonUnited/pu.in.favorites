@@ -7,6 +7,9 @@
 <script src="{{STATIC_URL}}js/pu_in_favorites.js"></script>
 {% endblock %}
 
+{% block body_class %}
+{% endblock %}
+
 {% block left-pane %}
 
 <h1>Favorites administration for {{ object }}</h1>
@@ -27,10 +30,10 @@
 
 </div>
 
-<ul id="favorites">
+<ol id="favorites_admin">
   {% for folder in object.favoritesfolder_set.all %}
   {% favoritesfolder folder %}
   {% endfor %}
-</ul>
+</ol>
 
 {% endblock %}

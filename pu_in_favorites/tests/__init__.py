@@ -1,6 +1,6 @@
 from favorite import FavoriteTest
 from favoritesfolder import FavoritesFolderTest
-#from favorites_view import FavoritesViewTest
+from favorites_view import FavoritesViewTest
 
 from favoritesfolder_create_view import FavoritesFolderCreateViewTest
 from favoritesfolder_update_view import FavoritesFolderUpdateViewTest
