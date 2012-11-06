@@ -69,13 +69,13 @@ class JSONUpdateView(JSONResponseMixin, BaseUpdateView):
 
     def convert_context_to_json(self, context):
 
-        data = {'status': 0, 'errors': {}}
+        data = {'status': 0, 'errors': {}, 'html': ""}
 
         if not context['form'].is_valid():
             data['status'] = -1
             data['errors'] = context['form'].errors
 
-        if self.get_html_template_name():
+        elif self.get_html_template_name():
             data['html'] = render_to_string(
                 self.get_html_template_name(), context)
             

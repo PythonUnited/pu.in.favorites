@@ -6,19 +6,23 @@ class FavoriteForm(forms.ModelForm):
 
     """ Form for Favorite model """
 
-    move = forms.IntegerField(label="Move to", required=False)
+    order = forms.IntegerField(label="", required=False)
 
     class Meta:
         model = Favorite
-        fields = ("_title", "folder", "uri", "move")
+        fields = ("_title", "folder", "uri", "order")
 
     def save(self, commit=True):
 
+        reorder = False
+
+        if "order" in self.changed_data:
+            reorder = True
+            old_order = Favorite.objects.get(pk=self.instance.pk).order
+
         obj = super(FavoriteForm, self).save(commit=commit)
 
-        move = self.cleaned_data.get('move', 0)
-
-        if move:
-            obj.move(dist=move)
+        if reorder:
+            obj.move(dist=(obj.order - old_order))
 
         return obj
