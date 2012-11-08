@@ -3,10 +3,12 @@
 <li class="favoritesfolder"
     id="favoritesfolder_{{ object.id }}"
   >
+  <header><h3 class="title">{{ object.title }}</h3>
+
   <form target="#favoritesfolder_{{ object.id }}"
         class="favoritesfolder_edit form-inline"
         action="{% url pu_in_favorites_edit_favoritesfolder_json object.id %}">
-    <input name="_title" type="text" value="{{ object.title }}" /> 
+    <input class="input-small" name="_title" type="text" value="{{ object.title }}" /> 
     <input name="profile" type="hidden" value="{{ object.profile.id }}" /> 
     <input name="id" type="hidden" value="{{ object.id}}"/> 
     <div class="btn-group">
@@ -21,7 +23,6 @@
     </div>
   </form>
 
-  <span>{{ object.title }}</span>
   <div class="btn-group favoritesfolder-actions">
     <a class="btn btn-mini json-rm"
        href="{% url pu_in_favorites_delete_favoritesfolder_json object.id %}"
@@ -34,6 +35,7 @@
       <i class="icon-edit"></i>Bewerken
     </a>
   </div>
+  </header>
 
   <ol class="favorites">
     {% for favorite in object.favorite_set.all %}

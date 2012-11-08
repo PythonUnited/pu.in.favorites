@@ -61,7 +61,7 @@ class FavoriteUpdateViewTest(TestCase):
         self.assertEquals(Favorite.objects.all()[0].title, "Pipo")
 
         request = FakeRequest(
-            post={"_title": "Pipo", "move": 1},
+            post={"_title": "Pipo", "order": 1},
             user=user)
 
         self.view.request = request

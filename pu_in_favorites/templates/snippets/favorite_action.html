@@ -4,7 +4,7 @@
    title="Verwijder uit favorieten"><i class="icon-fav"></i>Favoriet</a>
 {% else %}
 <div class="btn-group" id="favorite_action"> 
-  <a class="favorite_action"
+  <a class="favorite_action btn"
      href="{% url pu_in_favorites_add_favorite_json %}"
      target="#favorite_action"
      pu:action-data="uri={{ urn }}&_title={{ title }}&folder={{ default_folder.id }}"
@@ -12,7 +12,7 @@
   </a>
   {% if folders.count != 1 %}
   <a href="#"
-     class="dropdown-toggle"
+     class="dropdown-toggle btn"
      data-toggle="dropdown"
      >
     <span class="caret"></span>

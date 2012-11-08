@@ -86,14 +86,13 @@ pu_in.favorites.edit_folder = function() {
  */
 pu_in.favorites.edit_favorite = function(id, data) {
 
-  $.post("/favorites/edit/favoritesfolder/" + id,
+  $.post("/favorites/edit/favorite/" + id,
          data,
          function(response) {
-
            if (response['status'] != 0) {
              pg.showMessage(response['errors'], "error");
            } else {
-             $("#favoritesfolder_" + id).replace(response['html']);
+             $("#favorite_" + id).replaceWith(response['html']);
            }
          });  
 };
@@ -236,14 +235,9 @@ pu_in.favorites.sort_favoritesfolder_update = function(event, ui) {
 
   var data = {};
 
-  if (ui.sender) {
-    console.log("moved to a different container");
-    data['folder'] = ui.sender.attr("id");
-  }
-
   data['dist'] = ui.position - ui.originalPosition;
 
-  pu_in.favorites.edit_favoritesfolder(ui.attr('id'), data);
+  pu_in.favorites.edit_favoritesfolder(ui.item.attr('id'), data);
 };
 
 
@@ -253,7 +247,21 @@ pu_in.favorites.sort_favoritesfolder_update = function(event, ui) {
  * @param ui Object that has been moved
  */
 pu_in.favorites.sort_favorite_update = function(event, ui) {
-  console.log("Stop sort favorite");
+
+  var folder = ui.item.parents(".favoritesfolder").eq(0).attr("id").substr(16);
+  var data = {};
+  var row_id = ui.item.attr("id");
+  var item_id = row_id.substr(9);
+
+  if (this === ui.item.parent()[0]) {
+    if (ui.sender) {
+      data['folder'] = folder;
+    }
+    
+    data['order'] = ui.item.parents("ol").eq(0).sortable("toArray").indexOf(row_id);
+    
+    pu_in.favorites.edit_favorite(item_id, data);
+  }
 };
 
 
@@ -279,7 +287,7 @@ $(document).ready(function() {
         delay: 150,
         placeholder: "placeholder",
         forcePlaceholderSize: true,
-        stop: pu_in.favorites.sort_favoritesfolder_stop
+        update: pu_in.favorites.sort_favoritesfolder_update
       });
 
     $('#xfavorites_admin').draggable({
@@ -293,7 +301,7 @@ $(document).ready(function() {
         delay: 150,
         placeholder: "placeholder",
         forcePlaceholderSize: true,
-        stop: pu_in.favorites.sort_favorite_stop
+        update: pu_in.favorites.sort_favorite_update
         });
 
   });
