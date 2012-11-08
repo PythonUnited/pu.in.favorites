@@ -253,13 +253,15 @@ pu_in.favorites.sort_favorite_update = function(event, ui) {
   var row_id = ui.item.attr("id");
   var item_id = row_id.substr(9);
 
-  if (ui.sender) {
-    data['folder'] = folder;
+  if (this === ui.item.parent()[0]) {
+    if (ui.sender) {
+      data['folder'] = folder;
+    }
+    
+    data['order'] = ui.item.parents("ol").eq(0).sortable("toArray").indexOf(row_id);
+    
+    pu_in.favorites.edit_favorite(item_id, data);
   }
-
-  data['order'] = ui.item.parents("ol").eq(0).sortable("toArray").indexOf(row_id);
-
-  pu_in.favorites.edit_favorite(item_id, data);
 };
 
 

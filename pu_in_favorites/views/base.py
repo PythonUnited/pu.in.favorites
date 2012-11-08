@@ -52,7 +52,7 @@ class JSONUpdateView(JSONResponseMixin, BaseUpdateView):
         allow single field updates.
         """
 
-        data = {}
+        data = http.QueryDict("", mutable=True)
 
         self.object = self.get_object()
 
