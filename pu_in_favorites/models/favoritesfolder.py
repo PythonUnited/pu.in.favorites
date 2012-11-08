@@ -1,6 +1,8 @@
+import gnome_sudoku.defaults
 import logging
 from django.db import models
 from pgprofile.models.userprofile import UserProfile
+from pu_in_favorites import settings
 
 
 log = logging.getLogger("pu_in_favorites")
@@ -21,6 +23,22 @@ class FavoritesFolder(models.Model):
     def title(self):
 
         return self._title
+
+    # make a copy of this FavoritesFolder, including the connected Favorites, and assign it to userprofile
+    def clone_for_userprofile(self, userprofile):
+        clonedfolder, created = FavoritesFolder.objects.get_or_create(_title=self._title, profile=userprofile, defaults={
+                'order': self.order,
+                'can_delete': self.can_delete})
+
+        for fav in self.favorite_set.all():
+            fav.clone_to_folder(clonedfolder)
+
+    @staticmethod
+    def create_defaults_for(userprofile):
+        folders = FavoritesFolder.objects.filter(profile__user__username = settings.DEFAULT_FAVORITES_USERNAME)
+        for folder in folders:
+            folder.clone_for_userprofile(userprofile)
+        return userprofile.favoritesfolder_set.all()[0]
 
     def save(self, **kwargs):
 
