@@ -17,7 +17,9 @@ class FavoriteCreateView(JSONCreateView):
         context = super(FavoriteCreateView, self).get_context_data(**kwargs)
 
         context['request'] = self.request
-        context.update(favorite_action(context, urn=self.object.uri, title=self.object.title))
+
+        if self.object:
+            context.update(favorite_action(context, urn=self.object.uri, title=self.object.title))
 
         return context
 

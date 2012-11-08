@@ -1,32 +1,28 @@
 {% load pu_in_favorites_tags %}
 
-<li class="content_item"
+<li class="favoritesfolder"
     id="favoritesfolder_{{ object.id }}"
   >
-  <div class="pu_in_favorites_edit_folder_form"
-       id="pu_in_favorites_edit_folder_{{ object.id }}"
-       >
-    
-    <form target="#favoritesfolder_{{ object.id }}" 
-       action="{% url pu_in_favorites_edit_favoritesfolder_json object.id %}">
-      <input name="_title" type="text" value="{{ object.title }}" /> 
-      <input name="profile" type="hidden" value="{{ object.profile.id }}" /> 
-      <input name="id" type="hidden" value="{{ object.id}}"/> 
-      <div class="btn-group">
-        <button type="submit" class="btn btn-mini"
-                name="submit" value="submit"
-                >
-          <i class="icon-save"></i>Save
-        </button>
-        <button class="btn btn-mini cancel">
-          <i class="icon-remove"></i>Cancel
-        </button>        
-      </div>
-    </form>
-    
-  </div>
-  <span class="favoritesfolder_title">{{ object.title }}</span>
-  <div class="btn-group">
+  <form target="#favoritesfolder_{{ object.id }}"
+        class="favoritesfolder_edit form-inline"
+        action="{% url pu_in_favorites_edit_favoritesfolder_json object.id %}">
+    <input name="_title" type="text" value="{{ object.title }}" /> 
+    <input name="profile" type="hidden" value="{{ object.profile.id }}" /> 
+    <input name="id" type="hidden" value="{{ object.id}}"/> 
+    <div class="btn-group">
+      <button type="submit" class="btn btn-mini"
+              name="submit" value="submit"
+              >
+        <i class="icon-save"></i>Save
+      </button>
+      <button class="btn btn-mini cancel">
+        <i class="icon-remove"></i>Cancel
+      </button>        
+    </div>
+  </form>
+
+  <span>{{ object.title }}</span>
+  <div class="btn-group favoritesfolder-actions">
     <a class="btn btn-mini json-rm"
        href="{% url pu_in_favorites_delete_favoritesfolder_json object.id %}"
        >
@@ -38,9 +34,10 @@
       <i class="icon-edit"></i>Bewerken
     </a>
   </div>
-  <ul>
+
+  <ol class="favorites">
     {% for favorite in object.favorite_set.all %}
     {% favorite favorite %}
     {% endfor %}
-  </ul>
+  </ol>
 </li>

@@ -45,29 +45,27 @@ class JSONUpdateView(JSONResponseMixin, BaseUpdateView):
         self.object = form.save()
         return self.render_to_response(self.get_context_data(form=form))
 
-    def RM__get_initial(self):
+    def get_form(self, form_class):
 
         """
-        Returns the keyword arguments for instantiating the form.
+        Return the form, existing data merged with POST, so as to
+        allow single field updates.
         """
-
-        #kwargs = super(JSONUpdateView, self).get_form_kwargs()
 
         data = {}
 
         self.object = self.get_object()
 
-        for field in self.object.__class__._meta.fields:
-            data[field.name] = \
-                             field.value_from_object(self.object)
+        for field in form_class._meta.fields:
+            try:
+                modelfield = self.object.__class__._meta.get_field(field)
+                data[field] = modelfield.value_from_object(self.object)
+            except:
+                pass
 
-        #data.update(kwargs['data'])
+        data.update(self.request.POST)
 
-        #kwargs['data'] = data
-
-        #return kwargs
-
-        return data
+        return form_class(data=data, instance=self.object)
 
     def convert_context_to_json(self, context):
 
@@ -93,13 +91,13 @@ class JSONCreateView(JSONResponseMixin, BaseCreateView):
 
     def convert_context_to_json(self, context):
 
-        data = {'status': 0, 'errors': {}}
+        data = {'status': 0, 'errors': {}, 'html': ""}
 
         if not context['form'].is_valid():
             data['status'] = -1
             data['errors'] = context['form'].errors
 
-        if self.get_html_template_name():
+        elif self.get_html_template_name():
             data['html'] = render_to_string(
                 self.get_html_template_name(), context)
 
