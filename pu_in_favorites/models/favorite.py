@@ -28,6 +28,10 @@ class Favorite(models.Model):
 
         return self._title
 
+    # make a clone of this Favorite and put it in targetfolder
+    def clone_to_folder(self, targetfolder):
+        return Favorite.objects.create(_title=self._title, folder=targetfolder, order=self.order, uri=self.uri)
+
     @property
     def url(self):
 

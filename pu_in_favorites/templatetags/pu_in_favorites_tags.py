@@ -30,8 +30,9 @@ def favorite_action(context, obj=None, urn=None, title=None):
     try:
         default_folder = user_profile.favoritesfolder_set.all()[0]
     except:
-        default_folder = user_profile.favoritesfolder_set.create(
-            _title="General", can_delete=False)
+        default_folder = FavoritesFolder.create_defaults_for(user_profile)
+        #default_folder = user_profile.favoritesfolder_set.create(
+        #    _title="General", can_delete=False)
 
     if not title:
         title = obj.title
