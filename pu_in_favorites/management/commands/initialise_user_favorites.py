@@ -44,7 +44,8 @@ class Command(BaseCommand):
                 if options['do-create']:
                     FavoritesFolder.create_defaults_for(profile)
 
-            userdefaultfolder = profile.favoritesfolder_set.all()[0]
+            if options['do-create']:
+                userdefaultfolder = profile.favoritesfolder_set.all()[0]
             oldfavorites = OldFavorite.objects.filter(profiel=profile)
             for oldfav in oldfavorites:
                 if oldfav.object_id:
