@@ -53,7 +53,7 @@ class Command(BaseCommand):
                         urn = object_to_urn(oldfav.tgt)
                     except:
                         # do not create the favorite if the target doesn't exist anymore
-                        print "link broken: %s" % oldfav.tgt
+                        print "link broken: %s %d" % (oldfav.content_type.model, oldfav.object_id)
                         continue
                 else:
                     urn = oldfav.url
