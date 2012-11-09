@@ -49,7 +49,12 @@ class Command(BaseCommand):
             oldfavorites = OldFavorite.objects.filter(profiel=profile)
             for oldfav in oldfavorites:
                 if oldfav.object_id:
-                    urn = object_to_urn(oldfav.tgt)
+                    try:
+                        urn = object_to_urn(oldfav.tgt)
+                    except:
+                        # do not create the favorite if the target doesn't exist anymore
+                        print "link broken: %s" % oldfav.tgt
+                        continue
                 else:
                     urn = oldfav.url
 
