@@ -56,7 +56,7 @@ class Command(BaseCommand):
                 favcreated = False
                 if options['do-create']:
                     newfav, favcreated = Favorite.objects.get_or_create(folder=userdefaultfolder, uri=urn, defaults={'_title': oldfav.title})
-                print "%s%s %s for %s" % (indicator, 'created' if favcreated else 'updated', oldfav.title, profile.user.username)
+                print "%s%s %s for %s" % (indicator, 'created' if favcreated else 'updated', oldfav._title, profile.user.username)
 
 
         if not options['do-create']:
