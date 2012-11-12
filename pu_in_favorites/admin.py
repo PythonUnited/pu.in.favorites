@@ -5,7 +5,7 @@ class FavoriteInline(admin.TabularInline):
     model = Favorite
 
 class FavoritesFolderAdmin(admin.ModelAdmin):
-    list_display = ('_title', 'profile', 'num_favorites',)
+    list_display = ('_title', 'profile', 'num_favorites', 'can_delete')
     search_fields = ['profile__user__username', 'profile__achternaam', '_title', 'favorite___title', 'favorite__uri']
     inlines = [ FavoriteInline, ]
 

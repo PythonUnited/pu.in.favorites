@@ -9,6 +9,10 @@
         {{ favorite.title}}
       </a>
     </li>
+    {% empty %}
+        {% if not folder.can_delete %}
+            <li>Je kunt pagina's op het intranet favoriet maken door op de volgende knop te klikken <a href="#"><i class="icon-fav"></i></a></li>
+        {% endif %}
     {% endfor %}
   </ul>
   {% endfor %}

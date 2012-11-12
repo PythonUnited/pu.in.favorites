@@ -44,18 +44,25 @@ class Command(BaseCommand):
                 if options['do-create']:
                     FavoritesFolder.create_defaults_for(profile)
 
-            userdefaultfolder = profile.favoritesfolder_set.all()[0]
+            if options['do-create']:
+                userdefaultfolder = profile.favoritesfolder_set.all()[0]
             oldfavorites = OldFavorite.objects.filter(profiel=profile)
             for oldfav in oldfavorites:
                 if oldfav.object_id:
-                    urn = object_to_urn(oldfav.tgt)
+                    try:
+                        urn = object_to_urn(oldfav.tgt)
+                    except:
+                        # do not create the favorite if the target doesn't exist anymore
+                        print "link broken: %s %d" % (oldfav.content_type.model, oldfav.object_id)
+                        continue
                 else:
                     urn = oldfav.url
 
                 favcreated = False
                 if options['do-create']:
-                    newfav, favcreated = Favorite.objects.get_or_create(folder=userdefaultfolder, uri=urn, defaults={'_title': oldfav.title})
-                print "%s%s %s for %s" % (indicator, 'created' if favcreated else 'updated', oldfav.title, profile.user.username)
+                    newtitle = oldfav._title or urn[:50]
+                    newfav, favcreated = Favorite.objects.get_or_create(folder=userdefaultfolder, uri=urn, defaults={'_title': newtitle})
+                print "%s%s %s for %s" % (indicator, 'created' if favcreated else 'updated', oldfav._title, profile.user.username)
 
 
         if not options['do-create']:
