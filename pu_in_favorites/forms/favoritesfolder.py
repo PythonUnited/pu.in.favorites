@@ -6,12 +6,17 @@ class FavoritesFolderForm(forms.ModelForm):
 
     """ Form for FavoritesFolder model """
 
-    #def __init__(self, *args, **kwargs):
-
-    #    super(FavoritesFolderForm, self).__init__(*args, **kwargs)
-
-    #    self.fields['order'].required = False
+    order = forms.IntegerField(label="", required=False)
 
     class Meta:
         model = FavoritesFolder
-        fields = ("_title", "profile",)
+        fields = ("_title", "order")
+
+    def save(self, commit=True):
+
+        if "order" in self.changed_data:
+            obj_before_change = FavoritesFolder.objects.get(pk=self.instance.pk)
+            obj_before_change.move(
+                dist=(self.instance.order - obj_before_change.order))
+
+        return super(FavoritesFolderForm, self).save(commit=commit)

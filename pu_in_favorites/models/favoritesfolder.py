@@ -23,9 +23,13 @@ class FavoritesFolder(models.Model):
 
         return self._title
 
-    # make a copy of this FavoritesFolder, including the connected Favorites, and assign it to userprofile
     def clone_for_userprofile(self, userprofile):
-        clonedfolder, created = FavoritesFolder.objects.get_or_create(_title=self._title, profile=userprofile, defaults={
+
+        """ Make a copy of this FavoritesFolder, including the connected
+        Favorites, and assign it to userprofile """
+
+        clonedfolder, created = FavoritesFolder.objects.get_or_create(
+            _title=self._title, profile=userprofile, defaults={
                 'order': self.order,
                 'can_delete': self.can_delete})
 
@@ -34,7 +38,8 @@ class FavoritesFolder(models.Model):
 
     @staticmethod
     def create_defaults_for(userprofile):
-        folders = FavoritesFolder.objects.filter(profile__user__username = settings.DEFAULT_FAVORITES_USERNAME)
+        folders = FavoritesFolder.objects.filter(
+            profile__user__username = settings.DEFAULT_FAVORITES_USERNAME)
         for folder in folders:
             folder.clone_for_userprofile(userprofile)
         return userprofile.favoritesfolder_set.all()[0]

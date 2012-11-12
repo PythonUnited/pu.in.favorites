@@ -14,15 +14,9 @@ class FavoriteForm(forms.ModelForm):
 
     def save(self, commit=True):
 
-        reorder = False
-
         if "order" in self.changed_data:
-            reorder = True
-            old_order = Favorite.objects.get(pk=self.instance.pk).order
+            obj_before_change = Favorite.objects.get(pk=self.instance.pk)
+            obj_before_change.move(
+                dist=(self.instance.order - obj_before_change.order))
 
-        obj = super(FavoriteForm, self).save(commit=commit)
-
-        if reorder:
-            obj.move(dist=(obj.order - old_order))
-
-        return obj
+        return super(FavoriteForm, self).save(commit=commit)

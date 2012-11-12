@@ -72,12 +72,17 @@ pu_in.favorites.add_folder = function() {
 /**
  * Edit folder and update folder html with result.
  */
-pu_in.favorites.edit_folder = function() {
+pu_in.favorites.edit_favoritesfolder = function(id, data) {
 
-  var form = $("#pu_in_favorites_edit_folder_form form");
-  var folder_id = form.find(":input[name='id']").val();
-
-  pu_in.favorites.edit_favorite(folder_id, form.serialize());
+  $.post("/favorites/edit/favoritesfolder/" + id,
+         data,
+         function(response) {
+           if (response['status'] != 0) {
+             pg.showMessage(response['errors'], "error");
+           } else {
+             $("#favoritesfolder_" + id).replaceWith(response['html']);
+           }
+         });  
 };
 
 
@@ -95,11 +100,6 @@ pu_in.favorites.edit_favorite = function(id, data) {
              $("#favorite_" + id).replaceWith(response['html']);
            }
          });  
-};
-
-  
-pu_in.favorites.edit_favoritesfolder = function(data) {
-
 };
 
 
@@ -234,10 +234,11 @@ pu_in.favorites.handle_favorite_action = function(action) {
 pu_in.favorites.sort_favoritesfolder_update = function(event, ui) {
 
   var data = {};
+  var row_id = ui.item.attr("id");
+  var item_id = row_id.substr(16);
 
-  data['dist'] = ui.position - ui.originalPosition;
-
-  pu_in.favorites.edit_favoritesfolder(ui.item.attr('id'), data);
+  data['order'] = ui.item.parents("ol").eq(0).sortable("toArray").indexOf(row_id);
+  pu_in.favorites.edit_favoritesfolder(item_id, data);
 };
 
 

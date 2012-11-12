@@ -38,5 +38,7 @@ setup(name='pu_in_favorites',
       entry_points = """\
       [pu.in.app]
       urls=pu_in_favorites:get_urls
+      css=pu_in_favorites:get_css
+      js=pu_in_favorites:get_js
       """
       )
