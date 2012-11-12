@@ -1,4 +1,3 @@
-import gnome_sudoku.defaults
 import logging
 from django.db import models
 from pgprofile.models.userprofile import UserProfile
