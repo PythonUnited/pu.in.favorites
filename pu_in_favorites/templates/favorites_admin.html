@@ -15,8 +15,10 @@
 <h1>Favorites administration for {{ object }}</h1>
 
 <div class="btn-group">
+  {% if object.favoritesfolder_set.all.count < 8 %}
   <a href="javascript: pu_in.favorites.show_add_folder()" 
-     class="btn">Add folder</a>
+     class="btn" id="add_favoritesfolder">Add folder</a>
+  {% endif %}
 </div>
 
 <div id="pu_in_favorites_add_folder_form" style="display: none">

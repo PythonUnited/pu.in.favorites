@@ -63,6 +63,10 @@ pu_in.favorites.add_folder = function() {
              $("#pu_in_favorites_add_folder_form").hide();
              $("#favorites_admin").append(data['html']);
              pu_in.favorites.rebind_events();
+
+             if ($("li.favoritesfolder").size() > 7) {
+               $("#add_favoritesfolder").hide();
+             }
            }
            
          });
