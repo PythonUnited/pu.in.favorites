@@ -10,7 +10,7 @@ class FavoritesFolderForm(forms.ModelForm):
 
     class Meta:
         model = FavoritesFolder
-        fields = ("_title", "order")
+        fields = ("_title", "order", "profile")
 
     def save(self, commit=True):
 

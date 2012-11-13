@@ -55,24 +55,24 @@ li.edit .title {
     width: 100%;
 }
 
-li .btn-group.favorite-actions, li .btn-group.favoritesfolder-actions {
+li .favorite-actions, li .favoritesfolder-actions {
     float: right;
     display: none;
 }
 
-li.favorite:hover .btn-group.favorite-actions {
+li.favorite:hover .favorite-actions {
     display: block;
 }
 
-li.edit.favorite:hover .btn-group.favorite-actions {
+li.edit.favorite:hover .favorite-actions {
     display: none;
 }
 
-li.favoritesfolder:hover .btn-group.favoritesfolder-actions {
+li.favoritesfolder header:hover .favoritesfolder-actions {
     display: block;
 }
 
-li.edit.favoritesfolder:hover .btn-group.favoritesfolder-actions {
+li.edit.favoritesfolder header:hover .favoritesfolder-actions {
     display: none;
 }
 

@@ -1,6 +1,8 @@
 <li class="favorite"
     id="favorite_{{ object.id }}"
   >
+  <i class="icon-fav"></i>
+
   <form target="#favorite_{{ object.id }}"
         class="favorite_edit form-inline"
         action="{% url pu_in_favorites_edit_favorite_json object.id %}">
@@ -20,14 +22,14 @@
     <!--/div-->
   </form>
     
-  <span>{{ object.title }}</span>
-  <div class="btn-group favorite-actions">
-    <a class="btn btn-mini json-rm"
+  <span class="title">{{ object.title }}</span>
+  <div class="favorite-actions">
+    <a class="json-rm"
        href="{% url pu_in_favorites_delete_favorite_json object.id %}"
        >
       <i class="icon-trash"></i>Verwijderen
     </a>
-    <a class="btn btn-mini json-edit" 
+    <a class="json-edit" 
        href="#"
        >
       <i class="icon-edit"></i>Bewerken

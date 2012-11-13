@@ -143,7 +143,11 @@ pu_in.favorites.bind_events = function(elt, rebind) {
         $(this).unbind("click");
       }
       
-      $(this).click(pu_in.favorites.delete);
+      $(this).click(
+                    function(e) {
+                      pg.confirmMessage("Weet u zeker dat u dit item wilt verwijderen?", pu_in.favorites.delete, [e]);
+                      e.preventDefault();
+                    });
     });
 
   elt.find(".json-edit").each(function() {
