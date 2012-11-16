@@ -63,12 +63,11 @@ pu_in.favorites.add_folder = function() {
              $("#pu_in_favorites_add_folder_form").hide();
              $("#favorites_admin").append(data['html']);
              pu_in.favorites.rebind_events();
-
+             
              if ($("li.favoritesfolder").size() > 7) {
                $("#add_favoritesfolder").hide();
              }
-           }
-           
+           }           
          });
 };
 
@@ -110,7 +109,7 @@ pu_in.favorites.edit_favorite = function(id, data) {
 /**
  * Delete folder and remove html from list.
  */
-pu_in.favorites.delete = function(event) {
+pu_in.favorites.delete_item = function(event) {
   
   var tgt = $(event.target);
 
@@ -149,7 +148,7 @@ pu_in.favorites.bind_events = function(elt, rebind) {
       
       $(this).click(
                     function(e) {
-                      pg.confirmMessage("Weet u zeker dat u dit item wilt verwijderen?", pu_in.favorites.delete, [e]);
+                      pg.confirmMessage("Weet u zeker dat u dit item wilt verwijderen?", pu_in.favorites.delete_item, [e]);
                       e.preventDefault();
                     });
     });
@@ -201,6 +200,10 @@ pu_in.favorites.rebind_events = function() {
 };
 
 
+/**
+ * Handle the favorite action button.
+ * @param action Action link/button.
+ */
 pu_in.favorites.handle_favorite_action = function(action) {
 
   var tgt = action.attr("target");
@@ -228,7 +231,8 @@ pu_in.favorites.handle_favorite_action = function(action) {
                  });
              }
            }
-         });
+         },
+         "json");
   
   return false;
 };
@@ -299,11 +303,6 @@ $(document).ready(function() {
         update: pu_in.favorites.sort_favoritesfolder_update
       });
 
-    $('#xfavorites_admin').draggable({
-        revert: "invalid",
-          snap: true,
-          });
-    
     // Making the favorite items sort- and draggable
     $('.favorites').sortable({
         connectWith: '.favorites',
