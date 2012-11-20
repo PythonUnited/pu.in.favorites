@@ -69,14 +69,19 @@ class FavoritesFolder(models.Model):
         direction = (dist > 0 and 1 or -1)
 
         try:
-            targets = list(self.profile.favoritesfolder_set.filter(
-                order__range=(min(self.order + direction, self.order + dist),
-                              max(self.order + direction, self.order + dist))))
-            self.order = self.order + dist
-            self.save()
+            targets = list(self.profile.favoritesfolder_set.all())
+            target_ids  = [t.pk for t in targets]
+            curr_pos = target_ids.index(self.pk)
+
+            if (curr_pos + dist) < 0 or (curr_pos + dist) > len(target_ids):
+                return
+
+            target_ids.remove(self.pk)
+            target_ids.insert(curr_pos + dist, self.pk)
 
             for target in targets:
-                target.order -= direction
+                target.order = target_ids.index(target.pk)
                 target.save()
+
         except:
             log.warn("Couldn't move")

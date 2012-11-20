@@ -61,3 +61,17 @@ class FavoriteTest(TestCase):
         self.assertEquals(favs[0].title, "Favorite 1")        
         self.assertEquals(favs[1].title, "Favorite 0")                
         self.assertEquals(favs[2].title, "Favorite 2")                
+
+        self.favorite2.move(dist=-2)
+        favs = list(self.folder.favorite_set.all())
+
+        self.assertEquals(favs[0].title, "Favorite 2")        
+        self.assertEquals(favs[1].title, "Favorite 1")                
+        self.assertEquals(favs[2].title, "Favorite 0")
+
+        self.favorite2.move(dist=2)
+        favs = list(self.folder.favorite_set.all())
+
+        self.assertEquals(favs[0].title, "Favorite 1")        
+        self.assertEquals(favs[1].title, "Favorite 0")                
+        self.assertEquals(favs[2].title, "Favorite 2")

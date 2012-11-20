@@ -35,14 +35,9 @@ pu_in.favorites.show_add_folder = function() {
 /**
  * Show edit form.
  */
-pu_in.favorites.show_edit_form = function(event) {
-
-  var tgt = $(event.target);
+pu_in.favorites.show_edit_form = function(tgt) {
 
   tgt.parents("li").eq(0).addClass("edit");
-
-  event.stopPropagation();
-  event.preventDefault();
 };
 
 
@@ -62,7 +57,6 @@ pu_in.favorites.add_folder = function() {
            } else {             
              $("#pu_in_favorites_add_folder_form").hide();
              $("#favorites_admin").append(data['html']);
-             pu_in.favorites.rebind_events();
              
              if ($("li.favoritesfolder").size() > 7) {
                $("#add_favoritesfolder").hide();
@@ -134,68 +128,38 @@ pu_in.favorites.delete_item = function(event) {
 
 
 /**
- * Bind events to element.
- * @param elt Element to do
- * @param rebind Whether to unbind first
+ * Bind events for favorites. Do this as 'delegate' events on the document.
  */
-pu_in.favorites.bind_events = function(elt, rebind) {
-  
-  elt.find(".json-rm").each(function() {
-      
-      if (rebind) {
-        $(this).unbind("click");
-      }
-      
-      $(this).click(
-                    function(e) {
-                      pg.confirmMessage("Weet u zeker dat u dit item wilt verwijderen?", pu_in.favorites.delete_item, [e]);
-                      e.preventDefault();
-                    });
+pu_in.favorites.bind_events = function() {
+
+  $("#favorites_admin").on("click", ".json-rm", function(e) {
+
+      pg.confirmMessage("Weet u zeker dat u dit item wilt verwijderen?", pu_in.favorites.delete_item, [e]);
+      e.preventDefault();
     });
 
-  elt.find(".json-edit").each(function() {
+  $("#favorites_admin").on("click", ".json-edit", function(e) {
       
-      if (rebind) {
-        $(this).unbind("click");
-      }
-      
-      $(this).click(pu_in.favorites.show_edit_form);
+      pu_in.favorites.show_edit_form($(e.target));
+      e.preventDefault();
     });
 
-  elt.find("form").each(function() {
+  $("#favorites_admin").on("submit", ".form-inline", function(e) {
 
-      if (rebind) {
-        $(this).unbind("submit");
-      }
-      
-      $(this).submit(function() {
+      var form = $(e.target);
+      var tgt = form.attr("target");
 
-          var tgt = $(this).attr("target");
-
-          $.post($(this).attr("action"),
-                 $(this).serialize(),
-                 function(data) {
-                   
-                   if (data['status'] != 0) {
-                     pg.showMessage(data['errors'], "error");
-                   } else {
-                     $(tgt).replaceWith(data['html']);
-                     pu_in.favorites.bind_events($(tgt), true);
-                   }                 
-                 });
-          return false;
-        });
-    });
-};
-
-
-/**
- * Renew all event handlers.
- */
-pu_in.favorites.rebind_events = function() {
-  
-  $(".favorite,.favoritesfolder").each(function() {
-      pu_in.favorites.bind_events($(this), true);
+      $.post(form.attr("action"),
+             form.serialize(),
+             function(data) {
+               
+               if (data['status'] != 0) {
+                 pg.showMessage(data['errors'], "error");
+               } else {
+                 $(tgt).replaceWith(data['html']);
+               }                 
+             });
+      return false;
     });
 };
 
@@ -250,6 +214,7 @@ pu_in.favorites.sort_favoritesfolder_update = function(event, ui) {
   var item_id = row_id.substr(16);
 
   data['order'] = ui.item.parents("ol").eq(0).sortable("toArray").indexOf(row_id);
+
   pu_in.favorites.edit_favoritesfolder(item_id, data);
 };
 
@@ -290,14 +255,12 @@ $(document).ready(function() {
         return pu_in.favorites.handle_favorite_action($(this));
       });
     
-    $("#favorites_admin li").each(function() {
-        pu_in.favorites.bind_events($(this), true);
-      });
+    pu_in.favorites.bind_events();
  
     //Making the favorite folders sort- and draggable
     $('#favorites_admin').sortable({
-        revert: false,
-        delay: 150,
+        delay: 100,
+        revert: true,
         placeholder: "placeholder",
         forcePlaceholderSize: true,
         update: pu_in.favorites.sort_favoritesfolder_update
@@ -306,7 +269,8 @@ $(document).ready(function() {
     // Making the favorite items sort- and draggable
     $('.favorites').sortable({
         connectWith: '.favorites',
-        delay: 150,
+        delay: 100,
+        revert: true,
         placeholder: "placeholder",
         forcePlaceholderSize: true,
         update: pu_in.favorites.sort_favorite_update

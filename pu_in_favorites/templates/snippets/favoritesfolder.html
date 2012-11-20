@@ -24,11 +24,13 @@
   </form>
 
   <div class="favoritesfolder-actions">
+    {% if object.can_delete %}
     <a class="json-rm"
        href="{% url pu_in_favorites_delete_favoritesfolder_json object.id %}"
        >
       <i class="icon-trash"></i>Verwijderen
     </a>
+    {% endif %}
     <a class="json-edit" 
        href="javascript: pu_in.favorites.show_edit_folder_form('{{ object.title }}', '{{ object.id }}')"
        >
