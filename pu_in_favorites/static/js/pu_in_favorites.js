@@ -134,7 +134,7 @@ pu_in.favorites.bind_events = function() {
 
   $("#favorites_admin").on("click", ".json-rm", function(e) {
 
-      pg.confirmMessage("Weet u zeker dat u dit item wilt verwijderen?", pu_in.favorites.delete_item, [e]);
+      pg.confirmMessage("Weet je zeker dat je dit item wilt verwijderen?", pu_in.favorites.delete_item, [e]);
       e.preventDefault();
     });
 
