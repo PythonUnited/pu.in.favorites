@@ -57,7 +57,16 @@ pu_in.favorites.add_folder = function() {
            } else {             
              $("#pu_in_favorites_add_folder_form").hide();
              $("#favorites_admin").append(data['html']);
-             
+             $("#favorites_admin .favoritesfolder").last().
+               find('.favorites').sortable({
+                   connectWith: '.favorites',
+                     delay: 100,
+                     revert: true,
+                     placeholder: "placeholder",
+                     forcePlaceholderSize: true,
+                     update: pu_in.favorites.sort_favorite_update
+                     });
+
              if ($("li.favoritesfolder").size() > 7) {
                $("#add_favoritesfolder").hide();
              }
