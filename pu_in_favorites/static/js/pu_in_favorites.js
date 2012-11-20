@@ -69,7 +69,7 @@ pu_in.favorites.add_folder = function() {
 /**
  * Edit folder and update folder html with result.
  */
-pu_in.favorites.edit_favoritesfolder = function(id, data) {
+pu_in.favorites.edit_favoritesfolder = function(id, data, reload) {
 
   $.post("/favorites/edit/favoritesfolder/" + id,
          data,
@@ -77,7 +77,9 @@ pu_in.favorites.edit_favoritesfolder = function(id, data) {
            if (response['status'] != 0) {
              pg.showMessage(response['errors'], "error");
            } else {
-             $("#favoritesfolder_" + id).replaceWith(response['html']);
+             if (reload) {
+               $("#favoritesfolder_" + id).replaceWith(response['html']);
+             }
            }
          });  
 };
@@ -86,7 +88,7 @@ pu_in.favorites.edit_favoritesfolder = function(id, data) {
 /**
  * Update favorite.
  */
-pu_in.favorites.edit_favorite = function(id, data) {
+pu_in.favorites.edit_favorite = function(id, data, reload) {
 
   $.post("/favorites/edit/favorite/" + id,
          data,
@@ -94,7 +96,9 @@ pu_in.favorites.edit_favorite = function(id, data) {
            if (response['status'] != 0) {
              pg.showMessage(response['errors'], "error");
            } else {
-             $("#favorite_" + id).replaceWith(response['html']);
+             if (reload) {
+               $("#favorite_" + id).replaceWith(response['html']);
+             }
            }
          });  
 };
@@ -215,7 +219,7 @@ pu_in.favorites.sort_favoritesfolder_update = function(event, ui) {
 
   data['order'] = ui.item.parents("ol").eq(0).sortable("toArray").indexOf(row_id);
 
-  pu_in.favorites.edit_favoritesfolder(item_id, data);
+  pu_in.favorites.edit_favoritesfolder(item_id, data, false);
 };
 
 
@@ -238,7 +242,7 @@ pu_in.favorites.sort_favorite_update = function(event, ui) {
     
     data['order'] = ui.item.parents("ol").eq(0).sortable("toArray").indexOf(row_id);
     
-    pu_in.favorites.edit_favorite(item_id, data);
+    pu_in.favorites.edit_favorite(item_id, data, false);
   }
 };
 
@@ -259,6 +263,7 @@ $(document).ready(function() {
  
     //Making the favorite folders sort- and draggable
     $('#favorites_admin').sortable({
+        handle: "header",
         delay: 100,
         revert: true,
         placeholder: "placeholder",
@@ -266,7 +271,6 @@ $(document).ready(function() {
         update: pu_in.favorites.sort_favoritesfolder_update
       });
 
-    // Making the favorite items sort- and draggable
     $('.favorites').sortable({
         connectWith: '.favorites',
         delay: 100,
