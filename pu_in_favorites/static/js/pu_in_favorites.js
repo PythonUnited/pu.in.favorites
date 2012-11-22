@@ -37,7 +37,7 @@ pu_in.favorites.show_add_folder = function() {
  */
 pu_in.favorites.show_edit_form = function(tgt) {
 
-  tgt.parents("li").eq(0).addClass("edit");
+  tgt.parents(".editable").eq(0).addClass("edit");
 };
 
 
@@ -145,19 +145,32 @@ pu_in.favorites.delete_item = function(event) {
  */
 pu_in.favorites.bind_events = function() {
 
-  $("#favorites_admin").on("click", ".json-rm", function(e) {
+  $("body").on("click", ".edit form .cancel", function(e) {
+      var form = $(e.target).parents("form");
+      form.hide();
+      $(e.target).parents(".editable").eq(0).removeClass("edit");      
+      e.preventDefault();
+    });
+
+  $("body").on("click", ".toggle", function(e) {
+      $(e.target).parents(".favoritesfolder").find("ol").toggle("slow");
+      $(e.target).parents(".favoritesfolder").toggleClass("expanded");
+      e.preventDefault();
+    });
+
+  $("body").on("click", ".json-rm", function(e) {
 
       pg.confirmMessage("Weet je zeker dat je dit item wilt verwijderen?", pu_in.favorites.delete_item, [e]);
       e.preventDefault();
     });
 
-  $("#favorites_admin").on("click", ".json-edit", function(e) {
+  $("body").on("click", ".json-edit", function(e) {
       
       pu_in.favorites.show_edit_form($(e.target));
       e.preventDefault();
     });
 
-  $("#favorites_admin").on("submit", ".form-inline", function(e) {
+  $("body").on("submit", ".form-inline", function(e) {
 
       var form = $(e.target);
       var tgt = form.attr("target");
@@ -226,7 +239,7 @@ pu_in.favorites.sort_favoritesfolder_update = function(event, ui) {
   var row_id = ui.item.attr("id");
   var item_id = row_id.substr(16);
 
-  data['order'] = ui.item.parents("ol").eq(0).sortable("toArray").indexOf(row_id);
+  data['order'] = ui.item.parents(".sortable").eq(0).sortable("toArray").indexOf(row_id);
 
   pu_in.favorites.edit_favoritesfolder(item_id, data, false);
 };
@@ -257,12 +270,6 @@ pu_in.favorites.sort_favorite_update = function(event, ui) {
 
 
 $(document).ready(function() {
-
-    $(".pu_in_favorites_edit_folder_form .cancel").click(function() {
-        var form = $(this).parents(".pu_in_favorites_edit_folder_form");
-        form.hide();
-        form.next().show();        
-      });
 
     $(".favorite_action").click(function() {
         return pu_in.favorites.handle_favorite_action($(this));

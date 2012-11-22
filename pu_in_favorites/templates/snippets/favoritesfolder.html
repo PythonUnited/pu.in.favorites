@@ -1,47 +1,54 @@
 {% load pu_in_favorites_tags %}
 
-<li class="favoritesfolder"
+<section class="favoritesfolder"
     id="favoritesfolder_{{ object.id }}"
-  >
-  <header><h3 class="title">{{ object.title }}</h3>
-
-  <form target="#favoritesfolder_{{ object.id }}"
-        class="favoritesfolder_edit form-inline"
-        action="{% url pu_in_favorites_edit_favoritesfolder_json object.id %}">
-    <input class="input-small" name="_title" type="text" value="{{ object.title }}" /> 
-    <input name="profile" type="hidden" value="{{ object.profile.id }}" /> 
-    <input name="id" type="hidden" value="{{ object.id}}"/> 
-    <div class="btn-group">
-      <button type="submit" class="btn btn-mini"
-              name="submit" value="submit"
-              >
-        <i class="icon-save"></i>Save
-      </button>
-      <button class="btn btn-mini cancel">
-        <i class="icon-remove"></i>Cancel
-      </button>        
-    </div>
-  </form>
-
-  <div class="favoritesfolder-actions">
-    {% if object.can_delete %}
-    <a class="json-rm"
-       href="{% url pu_in_favorites_delete_favoritesfolder_json object.id %}"
-       >
-      <i class="icon-trash"></i>Verwijderen
-    </a>
-    {% endif %}
-    <a class="json-edit" 
-       href="javascript: pu_in.favorites.show_edit_folder_form('{{ object.title }}', '{{ object.id }}')"
-       >
-      <i class="icon-edit"></i>Bewerken
-    </a>
-  </div>
+         >
+  <header class="editable">
+    <h2 class="title">{{ object.title }}</h2>
+    
+    <form target="#favoritesfolder_{{ object.id }}"
+          class="favoritesfolder_edit form-inline"
+          action="{% url pu_in_favorites_edit_favoritesfolder_json object.id %}">
+      <input class="input-small" name="_title" type="text" value="{{ object.title }}" /> 
+      <input name="profile" type="hidden" value="{{ object.profile.id }}" /> 
+      <input name="id" type="hidden" value="{{ object.id}}"/> 
+      <div class="btn-group">
+        <button type="submit" class="btn btn-mini"
+                name="submit" value="submit"
+                >
+          <i class="icon-save"></i>Save
+        </button>
+        <button class="btn btn-mini cancel">
+          <i class="icon-remove"></i>Cancel
+        </button>        
+      </div>
+    </form>
+    
+    <ul class="actions">
+      {% if object.can_delete %}
+      <li>
+        <a class="json-rm"
+           href="{% url pu_in_favorites_delete_favoritesfolder_json object.id %}"
+           >
+          <i class="icon-trash"></i>Verwijderen
+        </a>
+      </li>
+      {% endif %}
+      <li>
+        <a class="json-edit" 
+           href="javascript: pu_in.favorites.show_edit_folder_form('{{ object.title }}', '{{ object.id }}')"
+           >
+          <i class="icon-edit"></i>Bewerken
+        </a>
+      </li>
+    </ul>
+    <a class="toggle expand" href="#">▼</a>
+    <a class="toggle collapse" href="#">▲</a>
   </header>
-
-  <ol class="favorites">
+  
+  <ol class="favorites sortable">
     {% for favorite in object.favorite_set.all %}
     {% favorite favorite %}
     {% endfor %}
   </ol>
-</li>
+</section>

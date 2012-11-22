@@ -2,40 +2,59 @@
  * PU intranet favorites CSS.
  */
 
-#favorites_admin ol {
-    min-height: 20px;
+#add_favoritesfolder {
+    margin-bottom: 20px;
 }
 
-li.favorite, li.favoritesfolder {
-    min-height: 30px;
+.favoritesfolder {
+    width: 100%;
+    clear: both;
+    margin-bottom: 20px;
 }
 
-li.favoritesfolder header {
+.favoritesfolder header {
     background-color: #f0f0f0;
-    height: 40px;
     padding-left: 20px;
+    position: relative;
+    cursor: move;
 }
 
-li.favoritesfolder header h3 {
-    float: left;
-    margin-top: 0px;
+.favoritesfolder header .toggle {
+    padding: 10px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+    color: #000000;
+    text-decoration: none;
+}
+
+.favoritesfolder header .toggle.collapse {
+    display: none;
+}
+
+.favoritesfolder.expanded header .toggle.collapse {
+    display: table;
+}
+
+.favoritesfolder.expanded header .toggle.expand {
+    display: none;
 }
 
 li.favorite {
+    position: relative;
+    height: 30px;
     border: 1px solid #c0c0c0;
-    border-radius: 4px; 
 }
 
-li.favorite form, li.favoritesfolder form {
+.editable form {
     display: none;
-    float: left;
+    position: absolute;
+    top: 10px;
+    z-index: 1000;
 }
 
-li.favorite.edit form.favorite_edit {
-    display: block;
-}
-
-li.favoritesfolder.edit form.favoritesfolder_edit {
+.editable.edit form {
     display: block;
 }
 
@@ -47,39 +66,39 @@ li.edit .title {
     padding: 10px;
 }
 
-#favorites, #favorites ul, #favorites_admin, #favorites_admin ol {
+#favorites, #favorites ul, #favorites_admin ol {
     list-style: none;
 }
 
-#favorites_admin li {
-    width: 100%;
-}
-
-li .favorite-actions, li .favoritesfolder-actions {
-    float: right;
+#favorites_admin ol {
+    min-height: 30px;
     display: none;
 }
 
-li.favorite:hover .favorite-actions {
+li.favorite .actions, .favoritesfolder .actions {
+    list-style: none;
+    display: none;
+    position: absolute;
+    right: 50px;
+    top: 10px;
+}
+
+#favorites_admin .actions li {
+    display: inline-block;
+    float: left;
+    margin-right: 20px;
+}
+
+li.favorite:hover .actions {
     display: block;
 }
 
-li.edit.favorite:hover .favorite-actions {
-    display: none;
+.edit .actions {
+    display: none !important;
 }
 
-li.favoritesfolder header:hover .favoritesfolder-actions {
+.favoritesfolder header:hover .actions {
     display: block;
-}
-
-li.edit.favoritesfolder header:hover .favoritesfolder-actions {
-    display: none;
-}
-
-#favorites li, #favorites_admin li {
-    clear: both;
-    margin-top: 10px;
-    margin-bottom: 10px;
 }
 
 .ui-sortable li {

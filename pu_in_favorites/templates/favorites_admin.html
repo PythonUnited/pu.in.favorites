@@ -2,11 +2,6 @@
 
 {% load pu_in_favorites_tags %}
 
-{% block extra_js %}
-<!-- pu_in_favorites JS -->
-<script src="{{STATIC_URL}}js/pu_in_favorites.js"></script>
-{% endblock %}
-
 {% block body_class %}
 {% endblock %}
 
@@ -32,10 +27,10 @@
 
 </div>
 
-<ol id="favorites_admin">
+<div id="favorites_admin" class="sortable">
   {% for folder in object.favoritesfolder_set.all %}
   {% favoritesfolder folder %}
   {% endfor %}
-</ol>
+</div>
 
 {% endblock %}
