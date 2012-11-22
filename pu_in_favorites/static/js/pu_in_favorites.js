@@ -160,6 +160,8 @@ pu_in.favorites.bind_events = function() {
 
   $("body").on("click", ".json-rm", function(e) {
 
+      console.log("yo");
+
       pg.confirmMessage("Weet je zeker dat je dit item wilt verwijderen?", pu_in.favorites.delete_item, [e]);
       e.preventDefault();
     });
