@@ -57,19 +57,23 @@ pu_in.favorites.add_folder = function() {
            } else {             
              $("#pu_in_favorites_add_folder_form").hide();
              $("#favorites_admin").append(data['html']);
-             $("#favorites_admin .favoritesfolder").last().
-               find('.favorites').sortable({
-                   connectWith: '.favorites',
-                     delay: 100,
-                     revert: true,
-                     placeholder: "placeholder",
-                     forcePlaceholderSize: true,
-                     update: pu_in.favorites.sort_favorite_update
-                     });
+             
+             var folder = $("#favorites_admin .favoritesfolder").last();
 
+             folder.find('.favorites').sortable({
+                 connectWith: '.favorites',
+                   delay: 100,
+                   revert: true,
+                   placeholder: "placeholder",
+                   forcePlaceholderSize: true,
+                   update: pu_in.favorites.sort_favorite_update
+                   });
+             
              if ($("li.favoritesfolder").size() > 7) {
                $("#add_favoritesfolder").hide();
              }
+
+             $(document).triggerHandler("pu_in_favorites_add_folder", [folder]);
            }           
          });
 };
@@ -131,7 +135,7 @@ pu_in.favorites.delete_item = function(event) {
            if (data['status'] != 0) {
              pg.showMessage(data['errors'], "error");
            } else {
-             tgt.parents("li").eq(0).remove();
+             tgt.parents(".editable").eq(0).remove();
            }
          });
 
@@ -146,8 +150,6 @@ pu_in.favorites.delete_item = function(event) {
 pu_in.favorites.bind_events = function() {
 
   $("body").on("click", ".edit form .cancel", function(e) {
-      var form = $(e.target).parents("form");
-      form.hide();
       $(e.target).parents(".editable").eq(0).removeClass("edit");      
       e.preventDefault();
     });
@@ -159,8 +161,6 @@ pu_in.favorites.bind_events = function() {
     });
 
   $("body").on("click", ".json-rm", function(e) {
-
-      console.log("yo");
 
       pg.confirmMessage("Weet je zeker dat je dit item wilt verwijderen?", pu_in.favorites.delete_item, [e]);
       e.preventDefault();
