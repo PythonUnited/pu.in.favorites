@@ -29,7 +29,7 @@
 
 <div id="favorites_admin" class="sortable">
   {% for folder in object.favoritesfolder_set.all %}
-  {% favoritesfolder folder %}
+  {% favoritesfolder folder 'True' %}
   {% endfor %}
 </div>
 

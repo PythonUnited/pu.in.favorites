@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import patterns, url
-from views.favorites import FavoritesView
+from views.favorites import FavoritesView, FavoritesAdminView
 from views.favoritesfolder import FavoritesFolderCreateView, \
      FavoritesFolderDetailView, FavoritesFolderUpdateView, \
      FavoritesFolderDeleteView
@@ -9,9 +9,13 @@ from views.favorite import FavoriteCreateView, FavoriteDetailView, \
 
 urlpatterns = patterns("pu_in_favorites.views",
                        
-                       url(r"^favorites/favorites",
+                       url(r"^favorites/favorites/",
                            FavoritesView.as_view(),
                            name="pu_in_favorites_favorites"),
+
+                       url(r"^favorites/favoritesadmin/",
+                           FavoritesAdminView.as_view(),
+                           name="pu_in_favorites_favorites_admin"),
 
                        url(r"^favorites/add/favoritesfolder$",
                            FavoritesFolderCreateView.as_view(),

@@ -1,11 +1,12 @@
 {% load pu_in_favorites_tags %}
 
-<section class="favoritesfolder editable"
+<section class="favoritesfolder {% if edit_mode %}editable{% endif %}"
     id="favoritesfolder_{{ object.id }}"
          >
   <header>
     <h2 class="title">{{ object.title }}</h2>
     
+    {% if edit_mode %}
     <form target="#favoritesfolder_{{ object.id }}"
           class="favoritesfolder_edit form-inline"
           action="{% url pu_in_favorites_edit_favoritesfolder_json object.id %}">
@@ -42,13 +43,14 @@
         </a>
       </li>
     </ul>
+    {% endif %}
     <a class="toggle expand" href="#">▼</a>
     <a class="toggle collapse" href="#">▲</a>
   </header>
   
   <ol class="favorites sortable">
     {% for favorite in object.favorite_set.all %}
-    {% favorite favorite %}
+    {% favorite favorite edit_mode %}
     {% endfor %}
   </ol>
 </section>

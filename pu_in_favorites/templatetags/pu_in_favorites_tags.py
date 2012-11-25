@@ -8,15 +8,19 @@ register = Library()
 
 
 @register.inclusion_tag('snippets/favoritesfolder.html')
-def favoritesfolder(folder):
+def favoritesfolder(folder, edit_mode="False"):
 
-    return {'object': folder}
+    edit_mode = (edit_mode and edit_mode != "False")
+
+    return {'object': folder, "edit_mode": edit_mode }
 
 
 @register.inclusion_tag('snippets/favorite.html')
-def favorite(favorite):
+def favorite(favorite, edit_mode="False"):
 
-    return {'object': favorite}
+    edit_mode = (edit_mode and edit_mode != "False")
+
+    return {'object': favorite, "edit_mode": edit_mode }
 
 
 @register.inclusion_tag('snippets/favorite_action.html', takes_context=True)

@@ -15,12 +15,7 @@ class FavoritesView(DetailView):
     """ Favoritesview """
 
     model = UserProfile
-    template_name = "favorites_admin.html"
-    allowed_actions = ("add_folder", "rm_folder")
-
-    def get_template_names(self):
-
-        return [self.template_name]
+    template_name = "favorites.html"
 
     def get_object(self, queryset=None):
 
@@ -32,6 +27,12 @@ class FavoritesView(DetailView):
             raise Http404
 
         return self.obj
+
+
+class FavoritesAdminView(FavoritesView):
+
+    template_name = "favorites_admin.html"
+    allowed_actions = ("add_folder", "rm_folder")
 
     def post(self, request, *args, **kwargs):
 
