@@ -70,9 +70,13 @@ li.edit .title {
     list-style: none;
 }
 
-#favorites_admin ol {
+.favoritesfolder ol {
     min-height: 30px;
     display: none;
+}
+
+.favoritesfolder.expanded ol {
+    display: block !important;
 }
 
 li.favorite .actions, .favoritesfolder .actions {

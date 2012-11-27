@@ -92,6 +92,8 @@ pu_in.favorites.edit_favoritesfolder = function(id, data, reload) {
            } else {
              if (reload) {
                $("#favoritesfolder_" + id).replaceWith(response['html']);
+               $(document).triggerHandler("pu_in_favorites_update_folder", 
+                                          [$("#favoritesfolder_" + id)]);
              }
            }
          });  
@@ -110,7 +112,11 @@ pu_in.favorites.edit_favorite = function(id, data, reload) {
              pg.showMessage(response['errors'], "error");
            } else {
              if (reload) {
+               console.log("reload");
                $("#favorite_" + id).replaceWith(response['html']);
+               $(document).triggerHandler("pu_in_favorites_update_favorite", 
+                                          [$("#favorite_" + id)]);
+
              }
            }
          });  
@@ -159,7 +165,6 @@ pu_in.favorites.bind_events = function() {
     });
 
   $("body").on("click", ".toggle", function(e) {
-      $(e.target).parents(".favoritesfolder").find("ol").toggle("slow");
       $(e.target).parents(".favoritesfolder").toggleClass("expanded");
       e.preventDefault();
     });
@@ -189,6 +194,13 @@ pu_in.favorites.bind_events = function() {
                  pg.showMessage(data['errors'], "error");
                } else {
                  $(tgt).replaceWith(data['html']);
+                 if ($(tgt).hasClass("favoritesfolder")) {
+                   $(document).triggerHandler("pu_in_favorites_update_folder", 
+                                              [$(tgt)]);
+                 } else {
+                   $(document).triggerHandler("pu_in_favorites_update_favorite", 
+                                              [$(tgt)]);
+                 }
                }                 
              });
       return false;
@@ -213,8 +225,6 @@ pu_in.favorites.handle_favorite_action = function(action) {
              if (tgt) {
                $(tgt).html(data['html']);
              } else {
-               console.log("replace");
-               console.log(action);
                action.replaceWith(data['html']);
              }
            }

@@ -19,7 +19,9 @@ class FavoriteCreateView(JSONCreateView):
         context['request'] = self.request
 
         if self.object:
-            context.update(favorite_action(context, urn=self.object.uri, title=self.object.title))
+            context.update(favorite_action(context, 
+                                           urn=self.object.uri, 
+                                           title=self.object.title))
 
         return context
 
@@ -32,6 +34,14 @@ class FavoriteUpdateView(JSONUpdateView):
 
     model = Favorite
     form_class = FavoriteForm
+
+    def get_context_data(self, **kwargs):
+
+        context = super(FavoriteUpdateView, self).get_context_data(**kwargs)
+
+        context['edit_mode'] = True
+
+        return context
 
     def get_html_template_name(self):
 
