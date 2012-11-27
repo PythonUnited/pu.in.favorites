@@ -1,0 +1,18 @@
+{% extends "layout-8x4.html" %}
+
+{% load pu_in_favorites_tags %}
+
+{% block body_class %}
+{% endblock %}
+
+{% block left-pane %}
+
+<h1>Favorites for {{ object }}</h1>
+
+<div id="favorites_listing" class="sortable">
+  {% for folder in object.favoritesfolder_set.all %}
+  {% favoritesfolder folder %}
+  {% endfor %}
+</div>
+
+{% endblock %}

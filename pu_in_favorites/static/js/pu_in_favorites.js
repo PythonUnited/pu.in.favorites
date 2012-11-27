@@ -149,6 +149,10 @@ pu_in.favorites.delete_item = function(event) {
  */
 pu_in.favorites.bind_events = function() {
 
+  $("body").on("click", ".favorite_action", function(e) {
+      return pu_in.favorites.handle_favorite_action($(e.target));
+    });
+
   $("body").on("click", ".edit form .cancel", function(e) {
       $(e.target).parents(".editable").eq(0).removeClass("edit");      
       e.preventDefault();
@@ -207,20 +211,11 @@ pu_in.favorites.handle_favorite_action = function(action) {
              pg.showMessage(pu_in.core.formatErrors(data['errors']), "error");
            } else {
              if (tgt) {
-
-               var parent = $(tgt).parent();
-
-               $(tgt).replaceWith(data['html']);
-               parent.find(".favorite_action").click(function() {
-                   return pu_in.favorites.handle_favorite_action($(this));
-                 });
+               $(tgt).html(data['html']);
              } else {
-               var parent = action.parent();
-
+               console.log("replace");
+               console.log(action);
                action.replaceWith(data['html']);
-               parent.find(".favorite_action").click(function() {
-                   return pu_in.favorites.handle_favorite_action($(this));
-                 });
              }
            }
          },
@@ -272,10 +267,6 @@ pu_in.favorites.sort_favorite_update = function(event, ui) {
 
 
 $(document).ready(function() {
-
-    $(".favorite_action").click(function() {
-        return pu_in.favorites.handle_favorite_action($(this));
-      });
     
     pu_in.favorites.bind_events();
  
