@@ -1,6 +1,6 @@
 from django.core.urlresolvers import reverse
-from base import JSONCreateView, JSONDetailView, JSONUpdateView, \
-     JSONDeleteView
+from pu_in_content.views.jsonbase import JSONCreateView, JSONDetailView, \
+    JSONUpdateView, JSONDeleteView
 from pu_in_favorites.models.favoritesfolder import FavoritesFolder
 from pu_in_favorites.forms.favoritesfolder import FavoritesFolderForm
 

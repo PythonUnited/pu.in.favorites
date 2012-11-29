@@ -1,9 +1,9 @@
 {% load pu_in_favorites_tags %}
 
-<section class="expanded favoritesfolder {% if edit_mode %}editable{% endif %}"
+<section class="expanded favoritesfolder"
     id="favoritesfolder_{{ object.id }}"
          >
-  <header>
+  <header class="{% if edit_mode %}editable{% endif %}">
     <h2 class="title">{{ object.title }}</h2>
     
     {% if edit_mode %}

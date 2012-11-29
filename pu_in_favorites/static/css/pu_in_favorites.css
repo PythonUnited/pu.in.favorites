@@ -41,6 +41,10 @@
     display: none;
 }
 
+.favoritesfolder_edit input {
+    width: 200px;
+}
+
 li.favorite {
     position: relative;
     height: 30px;
@@ -58,7 +62,7 @@ li.favorite {
     display: block;
 }
 
-li.edit .title {
+li.edit .title, header.edit h2 {
     display: none !important;
 }
 
