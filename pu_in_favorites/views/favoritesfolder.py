@@ -9,6 +9,7 @@ class FavoritesFolderCreateView(JSONCreateView):
 
     model = FavoritesFolder
     form_class = FavoritesFolderForm
+    success_template_name = "snippets/favoritesfolder.html"
 
     def get_context_data(self, **kwargs):
 
@@ -19,15 +20,12 @@ class FavoritesFolderCreateView(JSONCreateView):
 
         return context
 
-    def get_html_template_name(self):
-
-        return "snippets/favoritesfolder.html"
-
 
 class FavoritesFolderUpdateView(JSONUpdateView):
 
     model = FavoritesFolder
     form_class = FavoritesFolderForm
+    success_template_name = "snippets/favoritesfolder.html"
 
     def get_context_data(self, **kwargs):
 
@@ -37,10 +35,6 @@ class FavoritesFolderUpdateView(JSONUpdateView):
         context['edit_mode'] = True
 
         return context
-
-    def get_html_template_name(self):
-
-        return "snippets/favoritesfolder.html"
 
 
 class FavoritesFolderDetailView(JSONDetailView):

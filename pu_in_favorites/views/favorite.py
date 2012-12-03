@@ -1,5 +1,5 @@
-import json
 from django.core.urlresolvers import reverse
+from django.template.loader import render_to_string
 from pu_in_content.views.jsonbase import JSONCreateView, JSONDetailView, \
     JSONUpdateView, JSONDeleteView
 from pu_in_favorites.models.favorite import Favorite
@@ -11,6 +11,8 @@ class FavoriteCreateView(JSONCreateView):
 
     model = Favorite
     form_class = FavoriteForm
+    success_template_name = "snippets/favorite_action.html"
+
 
     def get_context_data(self, **kwargs):    
 
@@ -25,15 +27,12 @@ class FavoriteCreateView(JSONCreateView):
 
         return context
 
-    def get_html_template_name(self):
-
-        return "snippets/favorite_action.html"
-
 
 class FavoriteUpdateView(JSONUpdateView):
 
     model = Favorite
     form_class = FavoriteForm
+    success_template_name = "snippets/favorite.html"
 
     def get_context_data(self, **kwargs):
 
@@ -42,10 +41,6 @@ class FavoriteUpdateView(JSONUpdateView):
         context['edit_mode'] = True
 
         return context
-
-    def get_html_template_name(self):
-
-        return "snippets/favorite.html"
 
 
 class FavoriteDetailView(JSONDetailView):
@@ -56,6 +51,7 @@ class FavoriteDetailView(JSONDetailView):
 class FavoriteDeleteView(JSONDeleteView):
 
     model = Favorite
+    template_name = "snippets/favorite_action.html"
 
     def get_context_data(self, **kwargs):    
 
@@ -66,6 +62,3 @@ class FavoriteDeleteView(JSONDeleteView):
 
         return context
 
-    def get_html_template_name(self):
-
-        return "snippets/favorite_action.html"

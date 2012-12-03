@@ -4,20 +4,6 @@ if (pu_in == undefined) {
 }
 
 
-// TODO: move to core module
-pu_in['core'] = {};
-
-pu_in.core.formatErrors = function(dict) {
-
-  var errors = "<dl>";
-
-  for (key in dict) {
-    errors += "<dt>" + key + "</dt><dd>" + dict[key] + "</dd>";
-  }
-
-  return errors + "</dl>";
-};
-
 // Our own namespace
 pu_in['favorites'] = {};
 
@@ -205,33 +191,6 @@ pu_in.favorites.bind_events = function() {
              });
       return false;
     });
-};
-
-
-/**
- * Handle the favorite action button.
- * @param action Action link/button.
- */
-pu_in.favorites.handle_favorite_action = function(action) {
-
-  var tgt = action.attr("target");
-
-  $.post(action.attr("href"),
-         action.attr("pu:action-data"),
-         function(data) {
-           if (data['status'] != 0) {
-             pg.showMessage(pu_in.core.formatErrors(data['errors']), "error");
-           } else {
-             if (tgt) {
-               $(tgt).html(data['html']);
-             } else {
-               action.replaceWith(data['html']);
-             }
-           }
-         },
-         "json");
-  
-  return false;
 };
 
 
