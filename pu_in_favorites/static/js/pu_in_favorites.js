@@ -150,6 +150,10 @@ pu_in.favorites.bind_events = function() {
       e.preventDefault();
     });
 
+  $("#pu_in_favorites_add_folder_form .cancel").click(function(e) {
+      $("#pu_in_favorites_add_folder_form").hide();
+    });
+
   $("body").on("click", ".toggle", function(e) {
       $(e.target).parents(".favoritesfolder").toggleClass("expanded");
       e.preventDefault();

@@ -1,8 +1,12 @@
 <li class="favorite {% if edit_mode %}editable{% endif %}"
     id="favorite_{{ object.id }}"
   >
+  {% if edit_mode %}
   <i class="icon-fav"></i>
   <span class="title">{{ object.title }}</span>
+  {% else %}
+  <a href="{{ object.url }}">{{ object.title }}</a>
+  {% endif %}
 
   {% if edit_mode %}
   <form target="#favorite_{{ object.id }}"
