@@ -55,7 +55,7 @@ pu_in.favorites.add_folder = function() {
                    update: pu_in.favorites.sort_favorite_update
                    });
              
-             if ($("li.favoritesfolder").size() > 7) {
+             if ($(".favoritesfolder").size() > 7) {
                $("#add_favoritesfolder").hide();
              }
 

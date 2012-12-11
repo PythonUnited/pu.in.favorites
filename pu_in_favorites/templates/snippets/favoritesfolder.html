@@ -26,6 +26,13 @@
     </form>
     
     <ul class="actions">
+      <li>
+        <a class="json-edit" 
+           href="javascript: pu_in.favorites.show_edit_folder_form('{{ object.title }}', '{{ object.id }}')"
+           >
+          <i class="icon-edit"></i>Hernoemen
+        </a>
+      </li>
       {% if object.can_delete %}
       <li>
         <a class="json-rm"
@@ -35,13 +42,6 @@
         </a>
       </li>
       {% endif %}
-      <li>
-        <a class="json-edit" 
-           href="javascript: pu_in.favorites.show_edit_folder_form('{{ object.title }}', '{{ object.id }}')"
-           >
-          <i class="icon-edit"></i>Bewerken
-        </a>
-      </li>
     </ul>
     {% endif %}
     <a class="toggle expand" href="#">▼</a>
