@@ -51,18 +51,18 @@ li.favorite {
     border: 1px solid #c0c0c0;
 }
 
-.editable form {
+#favorites_admin .editable form {
     display: none;
     position: absolute;
     top: 10px;
     z-index: 1000;
 }
 
-.editable.edit form {
+#favorites_admin .editable.edit form {
     display: block;
 }
 
-li.edit .title, header.edit h2 {
+#favorites_admin li.edit .title, header.edit h2 {
     display: none !important;
 }
 
@@ -101,7 +101,7 @@ li.favorite:hover .actions {
     display: block !important;
 }
 
-.edit .actions {
+#favorites_admin .edit .actions {
     display: none !important;
 }
 

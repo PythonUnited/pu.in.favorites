@@ -1,11 +1,13 @@
 {% if is_favorite %}
 <a class="action-inline btn btn-mini favorite-action"
+   pu:action-method="POST"
    href="{% url pu_in_favorites_delete_favorite_json favorite_id %}"
    title="Verwijder uit favorieten"><i class="icon-fav"></i>Favoriet</a>
 {% else %}
 <div class="btn-group favorite-action"> 
   <a class="action-inline btn btn-mini"
      target="parent()"
+     pu:action-method="POST"
      href="{% url pu_in_favorites_add_favorite_json %}"
      pu:action-data="uri={{ urn }}&_title={{ title }}&folder={{ default_folder.id }}"
      title="Toevoegen aan favorieten"><i class="icon-fav"></i>Favoriet maken
@@ -22,6 +24,7 @@
     {% for folder in folders %}
     <li>
       <a class="action-inline"
+         pu:action-method="POST"
          target="parents('div').eq(0)"
          href="{% url pu_in_favorites_add_favorite_json %}"
          pu:action-data="uri={{ urn }}&_title={{ title }}&folder={{ folder.id }}"

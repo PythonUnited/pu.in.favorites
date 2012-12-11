@@ -13,7 +13,6 @@ class FavoriteCreateView(JSONCreateView):
     form_class = FavoriteForm
     success_template_name = "snippets/favorite_action.html"
 
-
     def get_context_data(self, **kwargs):    
 
         context = super(FavoriteCreateView, self).get_context_data(**kwargs)
@@ -61,4 +60,3 @@ class FavoriteDeleteView(JSONDeleteView):
         context.update(favorite_action(context, urn=self.object.uri, title=self.object.title))
 
         return context
-
