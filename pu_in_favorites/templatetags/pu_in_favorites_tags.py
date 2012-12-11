@@ -7,20 +7,27 @@ from pu_in_favorites.models.favoritesfolder import FavoritesFolder
 register = Library()
 
 
-@register.inclusion_tag('snippets/favoritesfolder.html')
-def favoritesfolder(folder, edit_mode="False"):
+@register.inclusion_tag('snippets/favoritesfolder.html', takes_context=True)
+def favoritesfolder(context, folder, edit_mode="False"):
 
     edit_mode = (edit_mode and edit_mode != "False")
 
-    return {'object': folder, "edit_mode": edit_mode }
+    return {'object': folder, "edit_mode": edit_mode, 
+            'request': context['request']}
 
 
-@register.inclusion_tag('snippets/favorite.html')
-def favorite(favorite, edit_mode="False"):
+@register.inclusion_tag('snippets/favorite.html', takes_context=True)
+def favorite(context, favorite, edit_mode="False"):
 
     edit_mode = (edit_mode and edit_mode != "False")
 
-    return {'object': favorite, "edit_mode": edit_mode }
+    if favorite.url.startswith("http") and \
+            not favorite.url.startswith(context['request'].get_host()):
+        external = True
+    else:
+        external = False
+
+    return {'object': favorite, "edit_mode": edit_mode, "external": external}
 
 
 @register.inclusion_tag('snippets/favorite_action.html', takes_context=True)

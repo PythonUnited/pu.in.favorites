@@ -19,15 +19,6 @@ pu_in.favorites.show_add_folder = function() {
 
 
 /**
- * Show edit form.
- */
-pu_in.favorites.show_edit_form = function(tgt) {
-
-  tgt.parents(".editable").eq(0).addClass("edit");
-};
-
-
-/**
  * Add folder on back-end. Insert resulting html into list.
  */
 pu_in.favorites.add_folder = function() {
@@ -110,33 +101,6 @@ pu_in.favorites.edit_favorite = function(id, data, reload) {
 
 
 /**
- * Delete folder and remove html from list.
- */
-pu_in.favorites.delete_item = function(event) {
-  
-  var tgt = $(event.target);
-
-  if (tgt.context.nodeName != "A") {
-    tgt = tgt.parents("a").eq(0);
-  }
-
-  $.post(tgt.attr("href"),
-         {},
-         function(data) {
-           
-           if (data['status'] != 0) {
-             pg.showMessage(data['errors'], "error");
-           } else {
-             tgt.parents(".editable").eq(0).remove();
-           }
-         });
-
-  event.stopPropagation();
-  event.preventDefault();
-};
-
-
-/**
  * Bind events for favorites. Do this as 'delegate' events on the document.
  */
 pu_in.favorites.bind_events = function() {
@@ -145,8 +109,9 @@ pu_in.favorites.bind_events = function() {
       return pu_in.favorites.handle_favorite_action($(e.target));
     });
 
-  $("body").on("click", ".edit form .cancel", function(e) {
-      $(e.target).parents(".editable").eq(0).removeClass("edit");      
+  $("body").on("click", "form .cancel", function(e) {
+      $(e.target).parents("form").hide();
+      $(e.target).parents(".editable").removeClass("edit");
       e.preventDefault();
     });
 
@@ -156,18 +121,6 @@ pu_in.favorites.bind_events = function() {
 
   $("body").on("click", ".toggle", function(e) {
       $(e.target).parents(".favoritesfolder").toggleClass("expanded");
-      e.preventDefault();
-    });
-
-  $("body").on("click", ".json-rm", function(e) {
-
-      pg.confirmMessage("Weet je zeker dat je dit item wilt verwijderen?", pu_in.favorites.delete_item, [e]);
-      e.preventDefault();
-    });
-
-  $("body").on("click", ".json-edit", function(e) {
-      
-      pu_in.favorites.show_edit_form($(e.target));
       e.preventDefault();
     });
 

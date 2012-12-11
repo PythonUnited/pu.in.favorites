@@ -5,12 +5,17 @@
   <i class="icon-fav"></i>
   <span class="title">{{ object.title }}</span>
   {% else %}
-  <a href="{{ object.url }}">{{ object.title }}</a>
+  <a href="{{ object.url }}"
+     {% if external %}
+     class="external"
+     {% endif %}
+     >{{ object.title }}</a>
   {% endif %}
 
   {% if edit_mode %}
   <form target="#favorite_{{ object.id }}"
-        class="favorite_edit form-inline"
+        id="favorite_{{ object.id }}_edit"
+        class="favorite_edit form-inline hide"
         action="{% url pu_in_favorites_edit_favorite_json object.id %}">
     <input name="_title" type="text" value="{{ object.title }}" /> 
     <input name="id" type="hidden" value="{{ object.id}}"/> 
@@ -30,14 +35,15 @@
     
   <ul class="actions">
     <li>
-      <a class="json-edit" 
-         href="#"
+      <a class="edit-inline" 
+         href="#favorite_{{ object.id }}_edit"
          >
         <i class="icon-edit"></i>Aanpassen
       </a>
     </li>
     <li>
-      <a class="json-rm"
+      <a class="rm-inline"
+         pu:confirm-delete="true"
          href="{% url pu_in_favorites_delete_favorite_json object.id %}"
          >
         <i class="icon-trash"></i>Verwijderen
