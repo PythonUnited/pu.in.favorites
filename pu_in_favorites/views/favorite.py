@@ -22,7 +22,9 @@ class FavoriteCreateView(JSONCreateView):
         if self.object:
             context.update(favorite_action(context, 
                                            urn=self.object.uri, 
-                                           title=self.object.title))
+                                           title=self.object.title,
+                                           label_prefix=self.request.REQUEST.get("label_prefix", "")
+                                           ))
 
         return context
 
@@ -57,6 +59,6 @@ class FavoriteDeleteView(JSONDeleteView):
         context = super(FavoriteDeleteView, self).get_context_data(**kwargs)
 
         context['request'] = self.request
-        context.update(favorite_action(context, urn=self.object.uri, title=self.object.title))
+        context.update(favorite_action(context, urn=self.object.uri, title=self.object.title, label_prefix=self.request.REQUEST.get("label_prefix", "")))
 
         return context

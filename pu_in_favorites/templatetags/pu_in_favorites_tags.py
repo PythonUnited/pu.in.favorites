@@ -24,7 +24,7 @@ def favorite(favorite, edit_mode="False"):
 
 
 @register.inclusion_tag('snippets/favorite_action.html', takes_context=True)
-def favorite_action(context, obj=None, urn=None, title=None):
+def favorite_action(context, obj=None, urn=None, title=None, label_prefix=""):
 
     """ Render favorite action """
 
@@ -35,8 +35,6 @@ def favorite_action(context, obj=None, urn=None, title=None):
         default_folder = user_profile.favoritesfolder_set.all()[0]
     except:
         default_folder = FavoritesFolder.create_defaults_for(user_profile)
-        #default_folder = user_profile.favoritesfolder_set.create(
-        #    _title="General", can_delete=False)
 
     if not title:
         title = obj.title
@@ -46,12 +44,18 @@ def favorite_action(context, obj=None, urn=None, title=None):
             folder__profile=user_profile,
             uri=urn)[0]
         is_favorite = True
+        label = "Favoriet"
         favorite_id = favorite.id
     except:
         is_favorite = False
+        label = "Favoriet maken"
         favorite_id = None        
+
+    if label_prefix:
+        label = "%s %s" % (label_prefix, label.lower())
 
     return {'is_favorite': is_favorite, 'favorite_id': favorite_id,
             'folders': user_profile.favoritesfolder_set.all(),
-            'default_folder': default_folder,
+            'default_folder': default_folder, 'label': label,
+            'label_prefix': label_prefix,
             'urn': urn, 'title': title}
