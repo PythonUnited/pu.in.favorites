@@ -10,13 +10,19 @@
 
 <div class="btn-group">
   {% if object.favoritesfolder_set.all.count < 8 %}
-  <a href="javascript: pu_in.favorites.show_add_folder()" 
-     class="btn" id="add_favoritesfolder">Add folder</a>
+  <a href="#pu_in_favorites_add_folder_form" 
+     class="btn add-inline" 
+     id="add_favoritesfolder">Add folder</a>
   {% endif %}
 </div>
 
 <div id="pu_in_favorites_add_folder_form" class="hide">
-  <form action="javascript: pu_in.favorites.add_folder()">
+  <form action="/favorites/add/favoritesfolder" method="POST"
+        pu:callback="pu_in.favorites.folderAdded"
+        pu:target-behavior="append"
+        target="#favorites_admin"
+        class="submit-inline"
+        >
     <label>Title</label>
     <input name="_title" type="text" /> 
     <input name="profile" type="hidden" value="{{ request.user.get_profile.id }}" />
