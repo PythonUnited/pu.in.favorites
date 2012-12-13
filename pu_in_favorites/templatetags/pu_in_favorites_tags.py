@@ -37,6 +37,7 @@ def favorite_action(context, obj=None, urn=None, title=None, label_prefix=""):
 
     urn = urn or object_to_urn(obj)
     user_profile = context['request'].user.get_profile()
+    url = obj.get_absolute_url()
 
     try:
         default_folder = user_profile.favoritesfolder_set.all()[0]
@@ -49,7 +50,7 @@ def favorite_action(context, obj=None, urn=None, title=None, label_prefix=""):
     try:
         favorite = Favorite.objects.filter(
             folder__profile=user_profile,
-            uri=urn)[0]
+            uri__in=[urn, url])[0]
         is_favorite = True
         label = "Favoriet"
         favorite_id = favorite.id
