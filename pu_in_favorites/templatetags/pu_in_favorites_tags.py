@@ -68,4 +68,5 @@ def favorite_action(context, obj=None, urn=None, title=None, label_prefix="",
             'default_folder': default_folder, 'label': label,
             'extra_css_classes': extra_css_classes,
             'label_prefix': label_prefix,
-            'urn': urn, 'title': title}
+            'urn': urn, 'title': title,
+            'extra_class': extra_class}
