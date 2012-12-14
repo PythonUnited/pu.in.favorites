@@ -9,50 +9,30 @@ pu_in['favorites'] = {};
 
 
 /**
- * Show the add folder form.
- */
-pu_in.favorites.show_add_folder = function() {
-
-  $("#pu_in_favorites_add_folder_form input[name='_title']").val("");
-  $("#pu_in_favorites_add_folder_form").show();
-};
-
-
-/**
  * Add folder on back-end. Insert resulting html into list.
  */
-pu_in.favorites.add_folder = function() {
+pu_in.favorites.folderAdded = function() {
 
-  var form = $("#pu_in_favorites_add_folder_form form");
-
-  $.post("/favorites/add/favoritesfolder",
-         form.serialize(),
-         function(data) {
-           
-           if (data['status'] != 0) {
-             pg.showMessage(data['errors'], "error");
-           } else {             
-             $("#pu_in_favorites_add_folder_form").hide();
-             $("#favorites_admin").append(data['html']);
+  $("#pu_in_favorites_add_folder_form").hide();
              
-             var folder = $("#favorites_admin .favoritesfolder").last();
+  var folder = $("#favorites_admin .favoritesfolder").last();
 
-             folder.find('.favorites').sortable({
-                 connectWith: '.favorites',
-                   delay: 100,
-                   revert: true,
-                   placeholder: "placeholder",
-                   forcePlaceholderSize: true,
-                   update: pu_in.favorites.sort_favorite_update
-                   });
-             
-             if ($(".favoritesfolder").size() > 7) {
-               $("#add_favoritesfolder").hide();
-             }
-
-             $(document).triggerHandler("pu_in_favorites_add_folder", [folder]);
-           }           
-         });
+  $("#pu_in_favorites_add_folder_form input[name='_title']").val("");
+  
+  folder.find('.favorites').sortable({
+      connectWith: '.favorites',
+        delay: 100,
+        revert: true,
+        placeholder: "placeholder",
+        forcePlaceholderSize: true,
+        update: pu_in.favorites.sort_favorite_update
+        });
+  
+  if ($(".favoritesfolder").size() > 7) {
+    $("#add_favoritesfolder").hide();
+  }
+  
+  $(document).triggerHandler("pu_in_favorites_add_folder", [folder]);
 };
 
 
@@ -109,7 +89,7 @@ pu_in.favorites.bind_events = function() {
       return pu_in.favorites.handle_favorite_action($(e.target));
     });
 
-  $("body").on("click", "form .cancel", function(e) {
+  $("body").on("click", ".editable form .cancel", function(e) {
       $(e.target).parents("form").hide();
       $(e.target).parents(".editable").removeClass("edit");
       e.preventDefault();
@@ -117,6 +97,7 @@ pu_in.favorites.bind_events = function() {
 
   $("#pu_in_favorites_add_folder_form .cancel").click(function(e) {
       $("#pu_in_favorites_add_folder_form").hide();
+      e.preventDefault();
     });
 
   $("body").on("click", ".toggle", function(e) {
