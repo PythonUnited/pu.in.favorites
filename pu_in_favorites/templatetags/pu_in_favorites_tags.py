@@ -31,7 +31,7 @@ def favorite(context, favorite, edit_mode="False"):
 
 
 @register.inclusion_tag('snippets/favorite_action.html', takes_context=True)
-def favorite_action(context, obj=None, urn=None, title=None, label_prefix=""):
+def favorite_action(context, obj=None, urn=None, title=None, label_prefix="", extra_class="ct-fav"):
 
     """ Render favorite action """
 
@@ -65,4 +65,5 @@ def favorite_action(context, obj=None, urn=None, title=None, label_prefix=""):
             'folders': user_profile.favoritesfolder_set.all(),
             'default_folder': default_folder, 'label': label,
             'label_prefix': label_prefix,
-            'urn': urn, 'title': title}
+            'urn': urn, 'title': title,
+            'extra_class': extra_class}
