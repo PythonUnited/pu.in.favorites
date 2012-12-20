@@ -69,7 +69,6 @@ pu_in.favorites.edit_favorite = function(id, data, reload) {
              pg.showMessage(response['errors'], "error");
            } else {
              if (reload) {
-               console.log("reload");
                $("#favorite_" + id).replaceWith(response['html']);
                $(document).triggerHandler("pu_in_favorites_update_favorite", 
                                           [$("#favorite_" + id)]);
