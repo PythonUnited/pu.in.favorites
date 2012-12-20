@@ -36,7 +36,7 @@
       {% if object.can_delete %}
       <li>
         <a class="rm-inline"
-           pu:confirm-delete="true"
+           data-pu-confirm-delete="true"
            href="{% url pu_in_favorites_delete_favoritesfolder_json object.id %}"
            >
           <i class="icon-trash"></i>Verwijderen
