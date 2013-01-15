@@ -132,6 +132,17 @@ pu_in.favorites.bind_events = function() {
 
 
 /**
+ * Show add button if less than 8 left.
+ */
+pu_in.favorites.folderdeleted = function() {
+
+  if ($(".favoritesfolder").size() < 8) {
+    $("#add_favoritesfolder").show();
+  }
+};
+
+
+/**
  * Sorting update handle.
  * @param event Event that triggered this function
  * @param ui Object that has been moved
