@@ -10,7 +10,7 @@
      target="parent()"
      data-pu_actionmethod="POST"
      href="{% url pu_in_favorites_add_favorite_json %}"
-     data-pu_actiondata="uri={{ urn }}&_title={{ title }}&folder={{ default_folder.id }}&label_prefix={{ label_prefix }}"
+     data-pu_actiondata="uri={{ urn|urlencode }}&_title={{ title }}&folder={{ default_folder.id }}&label_prefix={{ label_prefix }}"
      title="Toevoegen aan favorieten"><i class="icon-fav"></i>{{ label }}
   </a>
   {% if folders.count != 1 %}
@@ -28,7 +28,7 @@
          data-pu_actionmethod="POST"
          target="parents('div').eq(0)"
          href="{% url pu_in_favorites_add_favorite_json %}"
-         data-pu_actiondata="uri={{ urn }}&_title={{ title }}&folder={{ folder.id }}&label_prefix={{ label_prefix }}"
+         data-pu_actiondata="uri={{ urn|urlencode }}&_title={{ title }}&folder={{ folder.id }}&label_prefix={{ label_prefix }}"
          >
         in {{ folder.title }}
       </a>
