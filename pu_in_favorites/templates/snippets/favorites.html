@@ -4,7 +4,11 @@
   <ul>
     {% for favorite in folder.favorite_set.all %}
     <li>
-      <a href="{{ favorite.url }}">
+      <a href="{{ favorite.url }}"
+         {% if external %}
+         class="external"
+         {% endif %}
+         >
         <i class="icon-fav"></i>
         {{ favorite.title}}
       </a>
