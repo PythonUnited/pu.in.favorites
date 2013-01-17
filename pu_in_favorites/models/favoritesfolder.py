@@ -42,9 +42,10 @@ class FavoritesFolder(models.Model):
             profile__user__username = settings.DEFAULT_FAVORITES_USERNAME)
         for folder in folders:
             folder.clone_for_userprofile(userprofile)
-        if userprofile.favoritesfolder_set.count() > 0:
+        try:
             return userprofile.favoritesfolder_set.all()[0]
-        return []
+        except:
+            return []
 
     def save(self, **kwargs):
 
