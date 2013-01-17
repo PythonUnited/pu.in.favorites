@@ -1,3 +1,5 @@
+{% load pu_in_favorites_tags %}
+
 <ul id="favorites" class="dropdown-menu">
   {% for folder in object.favoritesfolder_set.all %}
   <li><i class="icon-folder-open"></i>{{ folder.title }}</li>
@@ -5,7 +7,7 @@
     {% for favorite in folder.favorite_set.all %}
     <li>
       <a href="{{ favorite.url }}"
-         {% if external %}
+         {% if favorite.url|is_external:request %}
          class="external"
          {% endif %}
          >
