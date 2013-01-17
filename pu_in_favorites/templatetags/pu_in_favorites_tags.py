@@ -45,6 +45,8 @@ def favorite_action(context, obj=None, urn=None, title=None, label_prefix="",
 
     """ Render favorite action """
 
+    import pdb; pdb.set_trace()
+
     urn = urn or object_to_urn(obj)
     user_profile = context['request'].user.get_profile()
     url = obj and obj.get_absolute_url() or ""
