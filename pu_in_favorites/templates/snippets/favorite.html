@@ -6,9 +6,7 @@
   <span class="title">{{ object.title }}</span>
   {% else %}
   <a href="{{ object.url }}"
-     {% if external %}
-     class="external"
-     {% endif %}
+     class="{% if external %}external{% endif %} {% if not object.url %}broken{% endif %}"
      >{{ object.title }}</a>
   {% endif %}
 

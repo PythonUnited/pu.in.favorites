@@ -39,13 +39,21 @@ class Favorite(models.Model):
     @property
     def url(self):
 
-        """ If the URI is n URN, resolve to actual object url,
-        otherwise leave it """
+        """ If the URI is an URN, resolve to actual object url,
+        otherwise leave it. If the object is not found, the url is
+        return as '' """
+
+        url = ""
 
         if self.uri.startswith("urn:"):
-            return urn_to_object(self.uri).get_absolute_url()
+            obj = urn_to_object(self.uri)
+
+            if obj:
+                url = obj.get_absolute_url()
         else:
-            return self.uri    
+            url = self.uri    
+
+        return url
 
     def clean(self):
 

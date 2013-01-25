@@ -11,7 +11,7 @@ def object_to_urn(object):
 
 def urn_to_object(urn):
 
-    """ Fetch the object for this URN """
+    """ Fetch the object for this URN. If not found, return None """
 
     parts = urn.split(":")
     
