@@ -10,7 +10,7 @@ register = Library()
 @register.filter(name='is_external')
 def is_external(url, request):
 
-    if url.startswith("http") and not url.startswith(request.get_host()):
+    if url and url.startswith("http") and not url.startswith(request.get_host()):
         return True
     else:
         return False
