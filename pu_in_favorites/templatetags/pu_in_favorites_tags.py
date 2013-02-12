@@ -1,3 +1,4 @@
+from urllib import unquote_plus
 from django.template import Library
 from pu_in_favorites.util import object_to_urn
 from pu_in_favorites.models.favorite import Favorite
@@ -47,7 +48,7 @@ def favorite_action(context, obj=None, urn=None, title=None, label_prefix="",
 
     urn = urn or object_to_urn(obj)
     user_profile = context['request'].user.get_profile()
-    url = obj and obj.get_absolute_url() or ""
+    url = obj and obj.get_absolute_url() or "__NO_URL__"
 
     try:
         default_folder = user_profile.favoritesfolder_set.all()[0]
@@ -60,7 +61,7 @@ def favorite_action(context, obj=None, urn=None, title=None, label_prefix="",
     try:
         favorite = Favorite.objects.filter(
             folder__profile=user_profile,
-            uri__in=[urn, url])[0]
+            uri__in=[unquote_plus(urn), url])[0]
         is_favorite = True
         label = "Favoriet"
         favorite_id = favorite.id

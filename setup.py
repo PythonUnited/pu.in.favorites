@@ -12,7 +12,7 @@ requires = [
     ]
 
 setup(name='pu_in_favorites',
-      version="1.0.0a",
+      version="1.0.1a",
       description='PythonUnited Intranet Favorites',
       long_description=README + '\n\n' +  CHANGES,
       classifiers=[

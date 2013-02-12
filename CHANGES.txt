@@ -1,3 +1,7 @@
+1.0.1a
+======
+* Fixes for 1.4.0
+
 1.0.0a
-------
+======
 * Initial release
