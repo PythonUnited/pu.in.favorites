@@ -1,5 +1,3 @@
-from django.core.urlresolvers import reverse
-from django.template.loader import render_to_string
 from pu_in_content.views.jsonbase import JSONCreateView, JSONDetailView, \
     JSONUpdateView, JSONDeleteView
 from pu_in_favorites.models.favorite import Favorite
