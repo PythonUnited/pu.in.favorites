@@ -1,6 +1,6 @@
 from urllib import unquote_plus
 from django.template import Library
-from pu_in_favorites.util import object_to_urn
+from djinn_contenttypes.utils import object_to_urn
 from pu_in_favorites.models.favorite import Favorite
 from pu_in_favorites.models.favoritesfolder import FavoritesFolder
 
@@ -11,7 +11,8 @@ register = Library()
 @register.filter(name='is_external')
 def is_external(url, request):
 
-    if url and url.startswith("http") and not url.startswith(request.get_host()):
+    if url and url.startswith("http") and \
+            not url.startswith(request.get_host()):
         return True
     else:
         return False

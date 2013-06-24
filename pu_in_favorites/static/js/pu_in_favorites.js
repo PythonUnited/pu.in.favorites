@@ -111,7 +111,7 @@ pu_in.favorites.bind_events = function() {
 
       $.post(form.attr("action"),
              form.serialize(),
-             function(data) {
+             function(data, status, xhr) {
                
                if (data['status'] != 0) {
                  pg.showMessage(data['errors'], "error");
@@ -126,7 +126,9 @@ pu_in.favorites.bind_events = function() {
                  }
                }                 
              });
-      return false;
+
+      e.stopPropagation();
+      e.preventDefault();
     });
 };
 

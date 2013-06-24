@@ -5,7 +5,7 @@ from pu_in_favorites.models import Favorite, FavoritesFolder
 from pgprofile.models import Favorite as OldFavorite
 from pgprofile.models import UserProfile
 from pu_in_favorites import settings
-from pu_in_favorites.util import object_to_urn
+from djinn_contenttypes.utils import object_to_urn
 
 
 class Command(BaseCommand):
