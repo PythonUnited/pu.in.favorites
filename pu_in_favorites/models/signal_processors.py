@@ -5,5 +5,5 @@ from django.dispatch import receiver
 
 @receiver(post_save, sender=UserProfile)
 def userprofile_post_save(sender, instance, **kwargs):
-    if kwargs['created']:
+    if kwargs.get('created', False):
         FavoritesFolder.create_defaults_for(instance)
