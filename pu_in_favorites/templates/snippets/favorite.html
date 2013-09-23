@@ -14,7 +14,7 @@
   <form target="#favorite_{{ object.id }}"
         id="favorite_{{ object.id }}_edit"
         class="favorite_edit form-inline hide"
-        action="{% url pu_in_favorites_edit_favorite_json object.id %}">
+        action="{% url 'pu_in_favorites_edit_favorite_json' object.id %}">
     <input name="_title" type="text" value="{{ object.title }}" /> 
     <input name="id" type="hidden" value="{{ object.id}}"/> 
     <input name="folder" type="hidden" value="{{ object.folder.id}}"/> 
@@ -42,7 +42,7 @@
     <li>
       <a class="rm-inline"
          data-pu_confirmdelete="true"
-         href="{% url pu_in_favorites_delete_favorite_json object.id %}"
+         href="{% url 'pu_in_favorites_delete_favorite_json' object.id %}"
          >
         <i class="icon-trash"></i>Verwijderen
       </a>
