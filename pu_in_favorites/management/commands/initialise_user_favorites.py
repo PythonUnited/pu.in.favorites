@@ -2,10 +2,12 @@ from optparse import make_option
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 from pu_in_favorites.models import Favorite, FavoritesFolder
-from pgprofile.models import Favorite as OldFavorite
-from pgprofile.models import UserProfile
 from pu_in_favorites import settings
 from djinn_contenttypes.utils import object_to_urn
+from djinn_profiles.utils import get_userprofile_model
+
+
+UserProfile = get_userprofile_model()
 
 
 class Command(BaseCommand):
@@ -46,33 +48,6 @@ class Command(BaseCommand):
 
             if options['do-create']:
                 userdefaultfolder = profile.favoritesfolder_set.all()[0]
-            oldfavorites = OldFavorite.objects.filter(profiel=profile)
-            for oldfav in oldfavorites:
-                if oldfav.object_id:
-                    try:
-                        urn = object_to_urn(oldfav.tgt)
-                    except:
-                        # do not create the favorite if the target doesn't exist anymore
-                        print "link broken: %s %d" % (oldfav.content_type.model, oldfav.object_id)
-                        continue
-                else:
-                    urn = oldfav.url
-
-                favcreated = False
-                if options['do-create']:
-                    newtitle = oldfav._title
-                    if not newtitle:
-                        try:
-                            if hasattr(oldfav.tgt, 'title'):
-                                newtitle = oldfav.tgt.title
-                            else:
-                                newtitle = oldfav.tgt.formatted_name
-                        except:
-                            newtitle = urn[:50]
-                    if urn:
-                        newfav, favcreated = Favorite.objects.get_or_create(folder=userdefaultfolder, uri=urn, defaults={'_title': newtitle})
-                print "%s%s %s for %s" % (indicator, 'created' if favcreated else 'updated', oldfav._title, profile.user.username)
-
 
         if not options['do-create']:
             print "\nend of dry-run\n"

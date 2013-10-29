@@ -4,7 +4,10 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic.detail import DetailView
 from django.http import Http404
 from django.http import HttpResponse
-from pgprofile.models.userprofile import UserProfile
+from djinn_profiles.utils import get_userprofile_model
+
+
+UserProfile = get_userprofile_model()
 
 
 log = logging.getLogger("pu_in_favorites")

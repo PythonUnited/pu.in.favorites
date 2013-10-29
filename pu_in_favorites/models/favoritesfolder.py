@@ -1,7 +1,7 @@
 import logging
 from django.db import models
-from pgprofile.models.userprofile import UserProfile
 from pu_in_favorites import settings
+from django.conf import settings
 
 
 log = logging.getLogger("pu_in_favorites")
@@ -10,7 +10,7 @@ log = logging.getLogger("pu_in_favorites")
 class FavoritesFolder(models.Model):
 
     _title = models.CharField(max_length=250)
-    profile = models.ForeignKey(UserProfile)
+    profile = models.ForeignKey(settings.DJINN_USERPROFILE_MODEL)
     order = models.IntegerField(default=0)
     can_delete = models.BooleanField(default=True)
 
