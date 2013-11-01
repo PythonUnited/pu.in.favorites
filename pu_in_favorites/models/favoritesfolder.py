@@ -1,6 +1,6 @@
 import logging
 from django.db import models
-from pu_in_favorites import settings
+from pu_in_favorites import settings as local_settings
 from django.conf import settings
 
 
@@ -39,7 +39,7 @@ class FavoritesFolder(models.Model):
     @staticmethod
     def create_defaults_for(userprofile):
         folders = FavoritesFolder.objects.filter(
-            profile__user__username = settings.DEFAULT_FAVORITES_USERNAME)
+            profile__user__username = local_settings.DEFAULT_FAVORITES_USERNAME)
         for folder in folders:
             folder.clone_for_userprofile(userprofile)
         try:
