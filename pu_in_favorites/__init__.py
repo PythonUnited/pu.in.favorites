@@ -1,7 +1,6 @@
-from urls import urlpatterns
-
 def get_urls():
 
+    from urls import urlpatterns
     return urlpatterns
 
 def get_css():
