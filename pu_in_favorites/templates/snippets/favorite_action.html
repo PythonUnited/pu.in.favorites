@@ -3,7 +3,7 @@
    data-pu_actionmethod="POST"
    data-pu_actiondata="label_prefix={{ label_prefix }}"
    href="{% url 'pu_in_favorites_delete_favorite_json' favorite_id %}"
-   title="Verwijder uit favorieten"><i class="icon-fav"></i>{{ label }}</a>
+   title="Verwijder uit favorieten">{% if no_icon %}<span id="add-to-favorite"></span>{% else %}<i class="icon-fav"></i>{% endif %}{{ label }}</a>
 {% else %}
 <div class="btn-group favorite-action {{ extra_css_classes }}"> 
   <a class="action-inline btn btn-mini"
@@ -11,7 +11,7 @@
      data-pu_actionmethod="POST"
      href="{% url 'pu_in_favorites_add_favorite_json' %}"
      data-pu_actiondata="uri={{ urn|urlencode }}&_title={{ title }}&folder={{ default_folder.id }}&label_prefix={{ label_prefix }}"
-     title="Toevoegen aan favorieten"><i class="icon-fav"></i>{{ label }}
+     title="Toevoegen aan favorieten">{% if no_icon %}<span id="add-to-favorite"></span>{% else %}<i class="icon-fav"></i>{% endif %}{{ label }}
   </a>
   {% if folders.count != 1 %}
   <a href="#"
