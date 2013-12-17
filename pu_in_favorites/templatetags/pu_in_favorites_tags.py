@@ -1,6 +1,6 @@
 from urllib import unquote_plus
 from django.template import Library
-from djinn_contenttypes.utils import object_to_urn
+from djinn_core.utils import object_to_urn
 from pu_in_favorites.models.favorite import Favorite
 from pu_in_favorites.models.favoritesfolder import FavoritesFolder
 

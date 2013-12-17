@@ -3,7 +3,7 @@ from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 from pu_in_favorites.models import Favorite, FavoritesFolder
 from pu_in_favorites import settings
-from djinn_contenttypes.utils import object_to_urn
+from djinn_core.utils import object_to_urn
 from djinn_profiles.utils import get_userprofile_model
 
 

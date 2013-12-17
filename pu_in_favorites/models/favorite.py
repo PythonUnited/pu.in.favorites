@@ -2,7 +2,7 @@ import logging
 from django.db import models
 from django.core.exceptions import ValidationError
 from favoritesfolder import FavoritesFolder
-from djinn_contenttypes.utils import urn_to_object
+from djinn_core.utils import urn_to_object
 
 
 log = logging.getLogger("pu_in_favorites")
