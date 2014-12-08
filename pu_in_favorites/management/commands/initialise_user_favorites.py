@@ -7,9 +7,6 @@ from djinn_core.utils import object_to_urn
 from djinn_profiles.utils import get_userprofile_model
 
 
-UserProfile = get_userprofile_model()
-
-
 class Command(BaseCommand):
 
     help = "Create the default Favorites for all users that do not have Favorites yet"
@@ -24,6 +21,8 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **options):
+
+	UserProfile = get_userprofile_model()
 
         indicator = ''
         if not options['do-create']:

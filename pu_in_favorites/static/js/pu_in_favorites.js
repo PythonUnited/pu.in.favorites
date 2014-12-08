@@ -44,11 +44,11 @@ pu_in.favorites.edit_favoritesfolder = function(id, data, reload) {
   $.post("/favorites/edit/favoritesfolder/" + id,
          data,
          function(response) {
-           if (response['status'] != 0) {
-             pg.showMessage(response['errors'], "error");
+           if (response.status !== 0) {
+             djinn.show_message(response.errors, "error");
            } else {
              if (reload) {
-               $("#favoritesfolder_" + id).replaceWith(response['html']);
+               $("#favoritesfolder_" + id).replaceWith(response.html);
                $(document).triggerHandler("pu_in_favorites_update_folder", 
                                           [$("#favoritesfolder_" + id)]);
              }
@@ -66,7 +66,7 @@ pu_in.favorites.edit_favorite = function(id, data, reload) {
          data,
          function(response) {
            if (response['status'] != 0) {
-             pg.showMessage(response['errors'], "error");
+             djinn.show_message(response['errors'], "error");
            } else {
              if (reload) {
                $("#favorite_" + id).replaceWith(response['html']);
@@ -114,7 +114,7 @@ pu_in.favorites.bind_events = function() {
              function(data, status, xhr) {
                
                if (data['status'] != 0) {
-                 pg.showMessage(data['errors'], "error");
+                 djinn.show_message(data['errors'], "error");
                } else {
                  $(tgt).replaceWith(data['html']);
                  if ($(tgt).hasClass("favoritesfolder")) {

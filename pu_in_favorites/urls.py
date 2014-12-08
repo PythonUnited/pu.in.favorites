@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import patterns, url
+from django.conf.urls import patterns, url
 from views.favorites import FavoritesView, FavoritesAdminView
 from views.favoritesfolder import FavoritesFolderCreateView, \
      FavoritesFolderDetailView, FavoritesFolderUpdateView, \
